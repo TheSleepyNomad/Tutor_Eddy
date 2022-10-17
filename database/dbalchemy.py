@@ -1,4 +1,8 @@
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database_core import Base
+from config.settings import DATABASE
+from os import path
 
 class Singleton(type):
 
@@ -19,4 +23,8 @@ class DBManager(metaclass=Singleton):
         """
         run session and connect to the data base
         """
-        pass
+        self.engine = create_engine(DATABASE)
+        session = sessionmaker(bind=self.engine)
+        self._session = session()
+        if not path.isfile(DATABASE):
+            Base.metadata.create_all(self.engine)
