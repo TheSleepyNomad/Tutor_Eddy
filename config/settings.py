@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # telegram bot token
-TELEGRAM_BOT_API_KEY = getenv('BOT_TOKEN')
+TOKEN = getenv('BOT_TOKEN')
 
 # project root
 BASE_DIR = path.dirname(path.abspath(__file__))
