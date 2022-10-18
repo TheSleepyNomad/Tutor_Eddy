@@ -25,7 +25,6 @@ KEYBOARD = {
     'ADD_STUDENT': emojize(':busts_in_silhouette: Новый ученик'),
     # for students
     'MY_LESSONS': emojize(':books: Мои занятия'),
-    'APP_INFO': emojize(':speech_balloon: О программе'),
     'REQ_PHONE': emojize(':open_file_folder: Поделиться телефоном'),
     # for guest
     'INFO': emojize(':speech_balloon: О Марии...'),
@@ -33,4 +32,5 @@ KEYBOARD = {
     # other
     '<<': emojize('⏪'),
     'SETTINGS': emojize('⚙️ Настройки'),
+    'APP_INFO': emojize(':speech_balloon: О программе'),
 }
