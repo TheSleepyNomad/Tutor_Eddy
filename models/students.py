@@ -8,10 +8,10 @@ class Students(Base):
 
     # table fields
     id = Column(Integer, primary_key=True)
+    username = Column(String, index=True)
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
-    patronymic = Column(String, index=True)
     phone = Column(Integer)
 
     def __repr__(self):
-        return f"{self.last_name} {self.first_name} {self.patronymic}"
+        return f"{self.last_name} {self.first_name}"

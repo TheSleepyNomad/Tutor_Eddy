@@ -11,8 +11,8 @@ class Lessons(Base):
     __tablename__ = 'lessons'
 
     id = Column(Integer, primary_key=True)
-    lesson_type_id = Column(Integer, ForeignKey('lessons_type.id'))
-    student_id = Column(Integer, ForeignKey('students.id'))
+    students_id = Column(Integer, ForeignKey('students.id'))
+    lessons_type_id = Column(Integer, ForeignKey('lessons_type.id'))
     date = data = Column(DateTime)
     pay = Column(Boolean)
 

@@ -10,7 +10,7 @@ TOKEN = getenv('BOT_TOKEN')
 BASE_DIR = path.dirname(path.abspath(__file__))
 
 # db settings
-DB_NAME = 'journal.sqlite'
+DB_NAME = 'journal.db'
 DATABASE = path.join('sqlite:///' + BASE_DIR, DB_NAME)
 
 # for utils and other

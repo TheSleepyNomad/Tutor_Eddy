@@ -28,3 +28,9 @@ class DBManager(metaclass=Singleton):
         self._session = session()
         if not path.isfile(DATABASE):
             Base.metadata.create_all(self.engine)
+
+    def close(self):
+        """
+        Close session
+        """
+        self._session.close()
