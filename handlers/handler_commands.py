@@ -20,17 +20,17 @@ class HandlerCommands(Handler):
                                   f'{message.from_user.first_name},'
                                   f' здравствуйте! Чем я могу помочь?')
             # load students menu
-        
-        # For new students
-        self.BD._add_new_student(message.from_user.username,
-                                    message.from_user.id,
-                                    message.from_user.first_name,
-                                    message.from_user.last_name)
+        else:
+            # For new students
+            self.BD._add_new_student(message.from_user.username,
+                                     message.from_user.id,
+                                     message.from_user.first_name,
+                                     message.from_user.last_name)
 
-        self.bot.send_message(message.chat.id,
-                                f'{message.from_user.first_name},'
-                                f' здравствуйте! Жду дальнейших задач.')
-        #load new_students_menu
+            self.bot.send_message(message.chat.id,
+                                  f'{message.from_user.first_name},'
+                                  f' здравствуйте! Жду дальнейших задач.')
+        # load new_students_menu
 
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
