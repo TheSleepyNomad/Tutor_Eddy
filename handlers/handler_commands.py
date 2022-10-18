@@ -16,11 +16,21 @@ class HandlerCommands(Handler):
         # message with user name
         # guid
         if self.BD.check_user_on_exist_by_user_id(message.from_user.id):
-            print('yes')
-            pass
-        self.bot.send_message(message.chat.id,
+            self.bot.send_message(message.chat.id,
                                   f'{message.from_user.first_name},'
-                                  f' здравствуйте! Жду дальнейших задач.')
+                                  f' здравствуйте! Чем я могу помочь?')
+            # load students menu
+        else:
+            # For new students
+            self.BD._add_new_student(message.from_user.username,
+                                    message.from_user.id,
+                                    message.from_user.first_name,
+                                    message.from_user.last_name)
+
+            self.bot.send_message(message.chat.id,
+                                f'{message.from_user.first_name},'
+                                f' здравствуйте! Жду дальнейших задач.')
+            #   load new_students_menu
 
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])

@@ -40,10 +40,21 @@ class DBManager(metaclass=Singleton):
     def check_user_on_exist_by_user_id(self, user_id) -> bool:
         try:
             result = self._session.query(
-                Students).filter_by(username=user_id).one()
+                Students).filter_by(chat_id=user_id).one()
             self.close()
             return True
 
         except NoResultFound:
             self.close()
             return False
+
+    def _add_new_student(self, username: str, user_id: str, first_name: str, second_name: str, phone=None) -> None:
+        student = Students(username=username,
+                           chat_id=user_id,
+                           first_name=first_name,
+                           second_name=second_name,
+                           phone=phone)
+
+        self._session.add(student)
+        self._session.commit()
+        self.close()
