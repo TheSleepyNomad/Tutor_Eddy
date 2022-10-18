@@ -19,6 +19,5 @@ class Lessons(Base):
     lessons_type = relationship(LessonsType)
     students = relationship(Students)
 
-    
     def __repr__(self):
         return f"{self.lesson_type_id} {self.student_id} {self.date}"

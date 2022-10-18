@@ -13,6 +13,5 @@ class Students(Base):
     patronymic = Column(String, index=True)
     phone = Column(Integer)
 
-
     def __repr__(self):
         return f"{self.last_name} {self.first_name} {self.patronymic}"

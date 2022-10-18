@@ -1,11 +1,10 @@
 from handlers.handler import Handler
 
+
 class HandlerCommands(Handler):
-    
 
     def __init__(self, bot):
         super().__init__(bot)
-
 
     def pressed_start_btn(self, message):
         self.bot.send_message(message.chat.id,
