@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import NoResultFound
 from database.database_core import Base
+from models.students import Students
 from config.settings import DATABASE
 from os import path
 
@@ -34,3 +36,14 @@ class DBManager(metaclass=Singleton):
         Close session
         """
         self._session.close()
+
+    def check_user_on_exist(self, username) -> bool:
+        try:
+            result = self._session.query(
+                Students).filter_by(username=username).one()
+            self.close()
+            return True
+
+        except NoResultFound:
+            self.close()
+            return False

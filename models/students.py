@@ -10,8 +10,8 @@ class Students(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String, index=True)
     first_name = Column(String, index=True)
-    last_name = Column(String, index=True)
+    second_name = Column(String, index=True)
     phone = Column(Integer)
 
     def __repr__(self):
-        return f"{self.last_name} {self.first_name}"
+        return f"{self.second_name} {self.first_name}"
