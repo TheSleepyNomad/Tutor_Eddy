@@ -1,5 +1,7 @@
 from os import getenv, path
 from dotenv import load_dotenv
+from emoji import emojize
+
 
 load_dotenv()
 
@@ -15,3 +17,8 @@ DATABASE = path.join('sqlite:///' + BASE_DIR, DB_NAME)
 
 # for utils and other
 ADMIN_NAME = getenv('ADMIN_NAME')
+
+# control btns
+KEYBOARD = {
+    'REQ_PHONE': emojize(':open_file_folder: Поделиться телефоном'),
+}

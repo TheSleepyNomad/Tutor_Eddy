@@ -37,10 +37,10 @@ class DBManager(metaclass=Singleton):
         """
         self._session.close()
 
-    def check_user_on_exist(self, username) -> bool:
+    def check_user_on_exist_by_user_id(self, user_id) -> bool:
         try:
             result = self._session.query(
-                Students).filter_by(username=username).one()
+                Students).filter_by(username=user_id).one()
             self.close()
             return True
 

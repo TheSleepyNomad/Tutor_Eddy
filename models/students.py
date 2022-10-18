@@ -9,6 +9,7 @@ class Students(Base):
     # table fields
     id = Column(Integer, primary_key=True)
     username = Column(String, index=True)
+    chat_id = Column(Integer)
     first_name = Column(String, index=True)
     second_name = Column(String, index=True)
     phone = Column(Integer)

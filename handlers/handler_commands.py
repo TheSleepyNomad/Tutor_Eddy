@@ -15,10 +15,10 @@ class HandlerCommands(Handler):
         # start message
         # message with user name
         # guid
-        if self.BD.check_user_on_exist('Black1Horn1'):
+        if self.BD.check_user_on_exist_by_user_id(message.from_user.id):
             print('yes')
-        else:
-            self.bot.send_message(message.chat.id,
+            pass
+        self.bot.send_message(message.chat.id,
                                   f'{message.from_user.first_name},'
                                   f' здравствуйте! Жду дальнейших задач.')
 
@@ -26,7 +26,7 @@ class HandlerCommands(Handler):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
         def handle(message):
             if message.text == '/start':
-                print(type(message))
+                print(message)
                 self.pressed_start_btn(message)
 
             if message.text == '/help':
