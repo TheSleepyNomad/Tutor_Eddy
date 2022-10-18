@@ -12,3 +12,6 @@ BASE_DIR = path.dirname(path.abspath(__file__))
 # db settings
 DB_NAME = 'journal.sqlite'
 DATABASE = path.join('sqlite:///' + BASE_DIR, DB_NAME)
+
+# for utils and other
+ADMIN_NAME = getenv('ADMIN_NAME')
