@@ -11,14 +11,13 @@ class Lessons(Base):
     __tablename__ = 'lessons'
 
     id = Column(Integer, primary_key=True)
-    lesson_type_id = Column(Integer, ForeignKey('lessons_type.id'))
-    student_id = Column(Integer, ForeignKey('students.id'))
+    students_id = Column(Integer, ForeignKey('students.id'))
+    lessons_type_id = Column(Integer, ForeignKey('lessons_type.id'))
     date = data = Column(DateTime)
     pay = Column(Boolean)
 
     lessons_type = relationship(LessonsType)
     students = relationship(Students)
 
-    
     def __repr__(self):
         return f"{self.lesson_type_id} {self.student_id} {self.date}"
