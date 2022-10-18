@@ -9,9 +9,9 @@ class Students(Base):
     # table fields
     id = Column(Integer, primary_key=True)
     username = Column(String, index=True)
-    chat_id = Column(Integer)
+    user_id = Column(Integer)
     first_name = Column(String, index=True)
-    second_name = Column(String, index=True)
+    last_name = Column(String, index=True)
     phone = Column(Integer)
 
     def __repr__(self):
