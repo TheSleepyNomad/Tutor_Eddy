@@ -29,11 +29,11 @@ class Keyboards:
         self.markup.row(self.set_btn('REQ_PHONE', request_contact=True))
         return self.markup
 
-    def students_start_menu(self):
-        pass
+    def students_start_menu(self) -> ReplyKeyboardMarkup:
+        self.markup = ReplyKeyboardMarkup(True, True)
 
     def admin_start_menu(self):
         pass
 
     def guest_start_menu(self):
-        pass
+        self.markup = ReplyKeyboardMarkup(True, True)
