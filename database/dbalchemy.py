@@ -42,18 +42,19 @@ class DBManager(metaclass=Singleton):
             result = self._session.query(
                 Students).filter_by(user_id=user_id).one()
             self.close()
-            return True
+            return result
 
         except NoResultFound:
             self.close()
             return False
 
-    def _add_new_student(self, username: str, user_id: str, first_name: str, last_name: str, phone=None) -> None:
+    def _add_new_student(self, username: str, user_id: str, first_name: str, last_name: str, phone=None, guest_is=True) -> None:
         student = Students(username=username,
                            user_id=user_id,
                            first_name=first_name,
                            last_name=last_name,
-                           phone=phone)
+                           phone=phone,
+                           guest_is=guest_is)
 
         self._session.add(student)
         self._session.commit()

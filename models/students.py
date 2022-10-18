@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Boolean
 from database.database_core import Base
 
 
@@ -13,6 +13,7 @@ class Students(Base):
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
     phone = Column(Integer)
+    guest_is = Column(Boolean)
 
     def __repr__(self):
         return f"{self.second_name} {self.first_name}"

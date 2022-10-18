@@ -14,11 +14,19 @@ class HandlerCommands(Handler):
         # else:
         # start message
         # message with user name
-        # guid
-        if self.BD.check_user_on_exist_by_user_id(message.from_user.id):
-            self.bot.send_message(message.chat.id,
+
+        # if user already 'speak' with bot
+        check_result = self.BD.check_user_on_exist_by_user_id(
+            message.from_user.id)
+        if check_result:
+            if not check_result.guest_is:
+                self.bot.send_message(message.chat.id,
+                                      f'{message.from_user.first_name},'
+                                      f' здравствуйте! Теперь Вы студент!!!')
+            else:
+                self.bot.send_message(message.chat.id,
                                   f'{message.from_user.first_name},'
-                                  f' здравствуйте! Чем я могу помочь?')
+                                  f' здравствуйте! Жду дальнейших задач.')
             # load students menu
         else:
             # For new students
