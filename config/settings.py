@@ -34,4 +34,7 @@ KEYBOARD = {
     '<<': emojize('⏪'),
     'SETTINGS': emojize('⚙️ Настройки'),
     'ABOUT_APP': emojize(':speech_balloon: О программе'),
+    'MATH': emojize(':speech_balloon: Математика'),
+    'ENG': emojize(':speech_balloon: Английский язык'),
+    'SOCIAL': emojize(':speech_balloon: Обществознание'),
 }

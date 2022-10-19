@@ -50,3 +50,10 @@ class Keyboards:
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
         self.markup.add(self.set_btn('ABOUT_APP'))
         return self.markup
+
+    def lessons_menu(self):
+        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup.add(self.set_btn('MATH'))
+        self.markup.add(self.set_btn('ENG'))
+        self.markup.add(self.set_btn('SOCIAL'))
+        return self.markup
