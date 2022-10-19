@@ -17,6 +17,7 @@ DATABASE = path.join('sqlite:///' + BASE_DIR, DB_NAME)
 
 # for utils and other
 ADMIN_NAME = getenv('ADMIN_NAME')
+ADMIN_ID = getenv('ADMIN_ID')
 
 # control btns
 KEYBOARD = {

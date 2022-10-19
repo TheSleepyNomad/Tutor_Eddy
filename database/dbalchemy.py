@@ -1,3 +1,4 @@
+from typing import Literal
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
@@ -59,3 +60,15 @@ class DBManager(metaclass=Singleton):
         self._session.add(student)
         self._session.commit()
         self.close()
+
+    def update_student_profile(self, user_id: int, name: str, value) -> None:
+        self._session.query(Students).filter_by(
+            user_id=user_id).update({name: value})
+        self._session.commit()
+        self.close()
+
+    def get_user_by_user_id(self, user_id: int):
+        result = self._session.query(
+            Students).filter_by(user_id=user_id).one()
+        self.close()
+        return result
