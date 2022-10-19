@@ -2,6 +2,8 @@ from handlers.handler_commands import HandlerCommands
 from handlers.handler_all_text import HandlerAllText
 from handlers.handler_data_collect import HandlerDataCollect
 from handlers.handler_inline_query import HandlerInlineQuery
+
+
 class HandlerMain:
 
     def __init__(self, bot):

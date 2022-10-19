@@ -14,6 +14,8 @@ class HandlerDataCollect(Handler):
 
     def send_new_student_for_admin(self, message):
         student = self.BD.get_user_by_user_id(user_id=message.contact.user_id)
+        student_lesson = self.BD.get_guest_lesson_by_user_id(student.id)
+        print(student_lesson)
         self.bot.send_message(ADMIN_ID,
                               f'{student.first_name} {student.last_name},'
                               'хочет прийти на пробное занятие. '
