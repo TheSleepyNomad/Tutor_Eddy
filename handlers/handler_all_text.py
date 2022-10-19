@@ -24,9 +24,15 @@ class HandlerAllText(Handler):
                               f'{MsgTemplates.ABOUT_TUTOR_MSG}')
 
     def pressed_test_lesson_btn(self, message) -> None:
-        self.bot.send_message(message.chat.id,
-                              f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                              reply_markup=self.keybords.guest_lesson_menu())
+        guest = self.BD.check_user_on_exist_by_user_id(message.chat.id)
+        lesson = self.BD.get_guest_lesson_by_user_id(guest.id)
+        if lesson:
+            self.bot.send_message(message.chat.id,
+                                f'Вы уже записаны на занятие')
+        else:
+            self.bot.send_message(message.chat.id,
+                                f'{MsgTemplates.ABOUT_LESSONS_MSG}',
+                                reply_markup=self.keybords.guest_lesson_menu())
 
     def pressed_math_btn(self, message) -> None:
         self.bot.send_message(message.chat.id,

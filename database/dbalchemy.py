@@ -75,8 +75,22 @@ class DBManager(metaclass=Singleton):
         return result
 
     def get_guest_lesson_by_user_id(self, user_id: int):
-        result = self._session.query(
-            Lessons).filter_by(user_id=user_id, like_guest=True).one()
+        try:
+            result = self._session.query(
+                Lessons).filter_by(students_id=user_id, like_guest=True).one()
+        except NoResultFound:
+            self.close()
+            return False
+        self.close()
+        return result
+
+    def get_lesson_type_by_id(self, lesson_type_id: int):
+        try:
+            result = self._session.query(
+                LessonsType).filter_by(id=lesson_type_id).one()
+        except NoResultFound:
+            self.close()
+            return False
         self.close()
         return result
 
