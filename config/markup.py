@@ -32,8 +32,8 @@ class Keyboards:
     def students_start_menu(self) -> ReplyKeyboardMarkup:
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('MY_LESSONS'))
-        self.markup.add(self.set_btn('INFO'))
-        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('APP_INFO'))
+        self.markup.add(self.set_btn('ABOUT_TUTOR'))
+        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('ABOUT_APP'))
         return self.markup
 
     def admin_start_menu(self):
@@ -46,6 +46,6 @@ class Keyboards:
     def guest_start_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('TEST_LESSON'))
-        self.markup.add(self.set_btn('INFO'))
-        self.markup.add(self.set_btn('APP_INFO'))
+        self.markup.add(self.set_btn('ABOUT_TUTOR'))
+        self.markup.add(self.set_btn('ABOUT_APP'))
         return self.markup

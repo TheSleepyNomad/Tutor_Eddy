@@ -4,6 +4,9 @@ from config.messages import MsgTemplates
 
 
 class HandlerCommands(Handler):
+    """
+    Handle commands from user
+    """
 
     def __init__(self, bot):
         super().__init__(bot)
@@ -67,6 +70,7 @@ class HandlerCommands(Handler):
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
         def handle(message):
+            
             if message.text == '/start':
                 self.pressed_start_btn(message)
 

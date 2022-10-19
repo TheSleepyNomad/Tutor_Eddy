@@ -27,10 +27,11 @@ KEYBOARD = {
     'MY_LESSONS': emojize(':books: Мои занятия'),
     'REQ_PHONE': emojize(':open_file_folder: Поделиться телефоном'),
     # for guest
-    'INFO': emojize(':speech_balloon: О Марии...'),
+    'ABOUT_TUTOR': emojize(':speech_balloon: О Марии...'),
     'TEST_LESSON': emojize(':pencil: Пробное занятие'),
     # other
+    'HELP': emojize(':red_question_mark: О программе'),
     '<<': emojize('⏪'),
     'SETTINGS': emojize('⚙️ Настройки'),
-    'APP_INFO': emojize(':speech_balloon: О программе'),
+    'ABOUT_APP': emojize(':speech_balloon: О программе'),
 }
