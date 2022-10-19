@@ -30,7 +30,7 @@ KEYBOARD = {
     'ABOUT_TUTOR': emojize(':speech_balloon: О Марии...'),
     'TEST_LESSON': emojize(':pencil: Пробное занятие'),
     # other
-    'HELP': emojize(':red_question_mark: О программе'),
+    'HELP': emojize(':red_question_mark: Помощь'),
     '<<': emojize('⏪'),
     'SETTINGS': emojize('⚙️ Настройки'),
     'ABOUT_APP': emojize(':speech_balloon: О программе'),

@@ -46,6 +46,7 @@ class Keyboards:
     def guest_start_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('TEST_LESSON'))
+        self.markup.add(self.set_btn('HELP'))
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
         self.markup.add(self.set_btn('ABOUT_APP'))
         return self.markup
