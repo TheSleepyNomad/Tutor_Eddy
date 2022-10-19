@@ -1,10 +1,10 @@
-from typing import Literal
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from database.database_core import Base
 from models.students import Students
 from models.lessons_type import LessonsType
+from models.lessons import Lessons
 from config.settings import DATABASE
 from os import path
 
@@ -77,6 +77,13 @@ class DBManager(metaclass=Singleton):
     def get_all_lesson_types(self):
         result = self._session.query(LessonsType).all()
         self.close()
-
-        print(result)
         return result
+    
+    def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
+        print(type(student_id))
+        lesson = Lessons(students_id=student_id,
+        lessons_type_id=lessons_type_id,
+        like_guest=guest)
+        self._session.add(lesson)
+        self._session.commit()
+        self.close()

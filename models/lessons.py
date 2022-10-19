@@ -13,8 +13,9 @@ class Lessons(Base):
     id = Column(Integer, primary_key=True)
     students_id = Column(Integer, ForeignKey('students.id'))
     lessons_type_id = Column(Integer, ForeignKey('lessons_type.id'))
-    date = data = Column(DateTime)
-    pay = Column(Boolean)
+    date = Column(DateTime)
+    payment = Column(Boolean)
+    like_guest = Column(Boolean)
 
     lessons_type = relationship(LessonsType)
     students = relationship(Students)
