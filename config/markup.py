@@ -27,6 +27,7 @@ class Keyboards:
     def get_user_phone_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.row(self.set_btn('REQ_PHONE', request_contact=True))
+        self.markup.row(self.set_btn('<<'))
         return self.markup
 
     def students_start_menu(self) -> ReplyKeyboardMarkup:

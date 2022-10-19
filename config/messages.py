@@ -9,6 +9,10 @@ admin_start_msg = 'Стартовое сообщение для админа'
 # about message templates
 about_tutor_msg = 'О Марии...'
 about_app_msg = 'О Программе...'
+about_lessons_msg = 'Подробнее о предметах'
+about_math_msg = 'Подробнее о математике'
+about_eng_msg = 'Подробнее о английском'
+about_social_msg = 'Подробнее о обществознании'
 
 # help message templates
 help_msg = 'Помощь по работе в программе'
@@ -24,4 +28,8 @@ class MsgTemplates(str, Enum):
     ADMIN_START_MSG = admin_start_msg
     ABOUT_TUTOR_MSG = about_tutor_msg
     ABOUT_APP_MSG = about_app_msg
+    ABOUT_LESSONS_MSG = about_lessons_msg
+    ABOUT_MATH_MSG = about_math_msg
+    ABOUT_ENG_MSG = about_eng_msg
+    ABOUT_SOCIAL_MSG = about_social_msg
     HELP_MSG = help_msg
