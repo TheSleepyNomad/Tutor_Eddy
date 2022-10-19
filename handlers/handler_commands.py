@@ -10,7 +10,7 @@ class HandlerCommands(Handler):
 
     def pressed_start_btn(self, message) -> None:
         """
-        Handle the /start commands
+        Handle the /start command
         """
         # check user role /admin/student/guest
         # if check_admin_role(message.from_user.username):
@@ -50,6 +50,20 @@ class HandlerCommands(Handler):
                                   f'{MsgTemplates.GUEST_START_MSG}',
                                   reply_markup=self.keybords.guest_start_menu())
 
+    def pressed_help_btn(self, message) -> None:
+        """
+        Handle the /help command
+        """
+        self.bot.send_message(message.chat.id,
+                              f'{MsgTemplates.HELP_MSG}')
+
+    def pressed_about_btn(self, message) -> None:
+        """
+        Handle the /about command
+        """
+        self.bot.send_message(message.chat.id,
+                              f'{MsgTemplates.ABOUT_APP_MSG}')
+
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
         def handle(message):
@@ -57,6 +71,7 @@ class HandlerCommands(Handler):
                 self.pressed_start_btn(message)
 
             if message.text == '/help':
-                pass
+                self.pressed_help_btn(message)
+
             if message.text == '/about':
-                pass
+                self.pressed_about_btn(message)
