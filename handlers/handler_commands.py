@@ -1,5 +1,6 @@
 from handlers.handler import Handler
 from utils.utils import check_admin_role
+from config.messages import MsgTemplates
 
 
 class HandlerCommands(Handler):
@@ -20,30 +21,33 @@ class HandlerCommands(Handler):
         # if user already 'speak' with bot
         check_result = self.BD.check_user_on_exist_by_user_id(
             message.from_user.id)
+
         # if user not first time chat with bot
         if check_result:
+
             # if user is student
             if not check_result.guest_is:
                 self.bot.send_message(message.chat.id,
-                                      f'{message.from_user.first_name},'
-                                      f' здравствуйте! Теперь Вы студент!!!',
+                                      f'{MsgTemplates.STUDENTS_START_MSG}',
                                       reply_markup=self.keybords.students_start_menu())
             # if user still guest
             else:
                 self.bot.send_message(message.chat.id,
-                                      f'{message.from_user.first_name},'
-                                      f' здравствуйте! Жду дальнейших задач.',
+                                      f'{MsgTemplates.GUEST_START_MSG}',
                                       reply_markup=self.keybords.guest_start_menu())
         # for new visitors
         else:
+            # send welcome msg
+            self.bot.send_message(message.chat.id,
+                                  f'{MsgTemplates.START_MSG}')
             # reg user like guest
             self.BD._add_new_student(message.from_user.username,
                                      message.from_user.id,
                                      message.from_user.first_name,
                                      message.from_user.last_name)
+
             self.bot.send_message(message.chat.id,
-                                  f'{message.from_user.first_name},'
-                                  f' здравствуйте!',
+                                  f'{MsgTemplates.GUEST_START_MSG}',
                                   reply_markup=self.keybords.guest_start_menu())
 
     def handle(self):
