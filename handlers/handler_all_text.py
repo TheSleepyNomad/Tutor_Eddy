@@ -94,4 +94,4 @@ class HandlerAllText(Handler):
                 self.pressed_help_btn(message)
 
             if message.text == KEYBOARD['<<']:
-                pass
+                self.pressed_back_btn(message)
