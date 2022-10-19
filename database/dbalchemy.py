@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound
 from database.database_core import Base
 from models.students import Students
+from models.lessons_type import LessonsType
 from config.settings import DATABASE
 from os import path
 
@@ -71,4 +72,11 @@ class DBManager(metaclass=Singleton):
         result = self._session.query(
             Students).filter_by(user_id=user_id).one()
         self.close()
+        return result
+
+    def get_all_lesson_types(self):
+        result = self._session.query(LessonsType).all()
+        self.close()
+
+        print(result)
         return result

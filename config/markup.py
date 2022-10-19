@@ -19,10 +19,21 @@ class Keyboards:
     def remove_menu():
         return ReplyKeyboardRemove()
 
-    @staticmethod
-    def set_inline_btn(name):
+    def set_inline_btn(self, name):
         return InlineKeyboardButton(str(name),
                                     callback_data=str(name.id))
+
+    def set_lesson_inline_btn(self, lesson_type):
+        return InlineKeyboardButton(str(lesson_type),
+                                    callback_data=str(lesson_type.type_name))
+
+    def guest_lesson_menu(self):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        
+        for itm in self.BD.get_all_lesson_types():
+            self.markup.add(self.set_lesson_inline_btn(itm))
+
+        return self.markup
 
     def get_user_phone_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
@@ -51,7 +62,7 @@ class Keyboards:
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
         self.markup.add(self.set_btn('ABOUT_APP'))
         return self.markup
-
+    # del in future
     def lessons_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('MATH'))

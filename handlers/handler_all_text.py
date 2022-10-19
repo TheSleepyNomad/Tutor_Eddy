@@ -26,7 +26,7 @@ class HandlerAllText(Handler):
     def pressed_test_lesson_btn(self, message) -> None:
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                              reply_markup=self.keybords.lessons_menu())
+                              reply_markup=self.keybords.guest_lesson_menu())
 
     def pressed_math_btn(self, message) -> None:
         self.bot.send_message(message.chat.id,
