@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 from database.database_core import Base
 from models.students import Students
 from models.lessons_type import LessonsType
@@ -39,7 +39,7 @@ class DBManager(metaclass=Singleton):
         """
         self._session.close()
 
-    def check_user_on_exist_by_user_id(self, user_id) -> bool:
+    def check_user_on_exist_by_user_id(self, user_id: int) -> bool:
         try:
             result = self._session.query(
                 Students).filter_by(user_id=user_id).one()
@@ -91,6 +91,10 @@ class DBManager(metaclass=Singleton):
         except NoResultFound:
             self.close()
             return False
+        except MultipleResultsFound:
+            self.close()
+            return False
+
         self.close()
         return result
 
@@ -98,11 +102,10 @@ class DBManager(metaclass=Singleton):
         result = self._session.query(LessonsType).all()
         self.close()
         return result
-    
+
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
-        lesson = Lessons(students_id=student_id,
-        lessons_type_id=lessons_type_id,
-        like_guest=guest)
+        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id,
+                         like_guest=guest)
         self._session.add(lesson)
         self._session.commit()
         self.close()
