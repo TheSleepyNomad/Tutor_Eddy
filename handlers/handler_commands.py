@@ -1,6 +1,7 @@
 from handlers.handler import Handler
 from utils.utils import check_admin_role
 from config.messages import MsgTemplates
+from telebot.types import Message
 
 
 class HandlerCommands(Handler):
@@ -11,7 +12,7 @@ class HandlerCommands(Handler):
     def __init__(self, bot):
         super().__init__(bot)
 
-    def pressed_start_btn(self, message) -> None:
+    def pressed_start_btn(self, message: Message) -> None:
         """
         Handle the /start command
         """
@@ -49,14 +50,14 @@ class HandlerCommands(Handler):
                                   f'{MsgTemplates.CHOOSE_LANG_MSG}',
                                   reply_markup=self.keybords.choose_language_menu())
 
-    def pressed_help_btn(self, message) -> None:
+    def pressed_help_btn(self, message: Message) -> None:
         """
         Handle the /help command
         """
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.HELP_MSG}')
 
-    def pressed_about_btn(self, message) -> None:
+    def pressed_about_btn(self, message: Message) -> None:
         """
         Handle the /about command
         """
@@ -65,7 +66,7 @@ class HandlerCommands(Handler):
 
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
-        def handle(message):
+        def handle(message: Message):
 
             if message.text == '/start':
                 self.pressed_start_btn(message)
