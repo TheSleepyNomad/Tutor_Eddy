@@ -13,11 +13,11 @@ class Lessons(Base):
     id = Column(Integer, primary_key=True)
     students_id = Column(Integer, ForeignKey('students.id'))
     lessons_type_id = Column(Integer, ForeignKey('lessons_type.id'))
-    date = data = Column(DateTime)
-    pay = Column(Boolean)
-
+    date = Column(DateTime)
+    payment = Column(Boolean)
+    like_guest = Column(Boolean)
     lessons_type = relationship(LessonsType)
     students = relationship(Students)
 
     def __repr__(self):
-        return f"{self.lesson_type_id} {self.student_id} {self.date}"
+        return f"{self.lessons_type_id} {self.students_id} {self.date}"
