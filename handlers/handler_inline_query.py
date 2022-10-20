@@ -1,3 +1,4 @@
+from cgitb import text
 from handlers.handler import Handler
 from config.settings import KEYBOARD
 from config.messages import MsgTemplates
@@ -13,7 +14,6 @@ class HandlerInlineQuery(Handler):
         student_lesson = self.BD.get_guest_lesson_by_user_id(user.id)
         lesson_type = self.BD.get_lesson_type_by_id(
             student_lesson.lessons_type_id)
-        print(lesson_type)
         self.bot.send_message(ADMIN_ID,
                               f'{user.first_name} {user.last_name}, '
                               f'хочет прийти на пробное занятие по {lesson_type}. '
@@ -22,12 +22,16 @@ class HandlerInlineQuery(Handler):
 
     def record_on_test_lesson(self, call):
         guest = self.BD.get_user_by_user_id(call.from_user.id)
-        print(guest.id)
-        print(call.data)
+        last_msg = call.message
+        print(call.message.chat.id)
         self.BD._add_new_lesson(guest.id, call.data, True)
         self.send_new_student_for_admin(guest)
         self.bot.answer_callback_query(call.id, 'Вы записаны - ждите', show_alert=True)
 
+        return last_msg
+
+    def del_last_bot_message(self, message):
+        self.bot.edit_message_text(chat_id=message.chat.id, text=message.text, message_id=message.id, reply_markup='')
 
     def more_about_math(self, call):
         self.bot.answer_callback_query(call.id)
@@ -48,16 +52,10 @@ class HandlerInlineQuery(Handler):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call):
             data = call.data
-            if data.isdigit():
-                self.record_on_test_lesson(call)
-                if int(data) == 1:
-                    pass
-                
-                if int(data) == 2:
-                    pass
 
-                if int(data) == 3:
-                    pass
+            if data.isdigit():
+                last_msg = self.record_on_test_lesson(call)
+                self.del_last_bot_message(last_msg)
             
             if data == 'Математика':
                 self.more_about_math(call)
