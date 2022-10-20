@@ -26,27 +26,29 @@ class HandlerInlineQuery(Handler):
         print(call.message.chat.id)
         self.BD._add_new_lesson(guest.id, call.data, True)
         self.send_new_student_for_admin(guest)
-        self.bot.answer_callback_query(call.id, 'Вы записаны - ждите', show_alert=True)
+        self.bot.answer_callback_query(
+            call.id, 'Вы записаны - ждите', show_alert=True)
 
         return last_msg
 
     def del_last_bot_message(self, message):
-        self.bot.edit_message_text(chat_id=message.chat.id, text=message.text, message_id=message.id, reply_markup='')
+        self.bot.edit_message_text(
+            chat_id=message.chat.id, text=message.text, message_id=message.id, reply_markup='')
 
-    def more_about_math(self, call):
+    def more_about_lesson(self, call):
         self.bot.answer_callback_query(call.id)
-        self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
-                              reply_markup=self.keybords.record_on_lesson_menu(1))
+        if call.data == 'Математика':
+            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
+                                  reply_markup=self.keybords.record_on_lesson_menu(1))
 
-    def more_about_english(self, call):
-        self.bot.answer_callback_query(call.id)
-        self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_ENG_MSG,
-                              reply_markup=self.keybords.record_on_lesson_menu(2))
+        if call.data == 'Английский язык':
+            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
+                                  reply_markup=self.keybords.record_on_lesson_menu(2))
 
-    def more_about_social(self, call):
-        self.bot.answer_callback_query(call.id)
-        self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG,
-                              reply_markup=self.keybords.record_on_lesson_menu(3))
+        if call.data == 'Обществознание':
+            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
+                                  reply_markup=self.keybords.record_on_lesson_menu(3))
+
 
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
@@ -56,12 +58,6 @@ class HandlerInlineQuery(Handler):
             if data.isdigit():
                 last_msg = self.record_on_test_lesson(call)
                 self.del_last_bot_message(last_msg)
-            
-            if data == 'Математика':
-                self.more_about_math(call)
 
-            if data == 'Английский язык':
-                self.more_about_english(call)
-
-            if data == 'Обществознание':
-                self.more_about_social(call)
+            else:
+                self.more_about_lesson(last_msg)
