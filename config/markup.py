@@ -20,6 +20,15 @@ class Keyboards:
     def remove_menu():
         return ReplyKeyboardRemove()
 
+    def record_on_lesson_menu(self, lesson_type_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        self.markup.add(self.set_record_on_lesson_btn(lesson_type_id))
+        return self.markup
+
+    def set_record_on_lesson_btn(self, lesson_type_id):
+        return InlineKeyboardButton(str('Записаться на пробное занятие'),
+                                    callback_data=str(lesson_type_id))
+
     def set_inline_btn(self, name):
         return InlineKeyboardButton(str(name),
                                     callback_data=str(name.id))

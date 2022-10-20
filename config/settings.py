@@ -38,6 +38,6 @@ KEYBOARD = {
     'MATH': emojize(':speech_balloon: Математика'),
     'ENGLISH': emojize(':speech_balloon: Английский язык'),
     'SOCIAL': emojize(':speech_balloon: Обществознание'),
-    'RUS': emojize(':speech_balloon: Русский язык'),
-    'ENG': emojize(':speech_balloon: Английский язык'),
+    'RUS': emojize(':speech_balloon: Русский'),
+    'ENG': emojize(':speech_balloon: English'),
 }

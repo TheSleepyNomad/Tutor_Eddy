@@ -100,7 +100,6 @@ class DBManager(metaclass=Singleton):
         return result
     
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
-        print(type(student_id))
         lesson = Lessons(students_id=student_id,
         lessons_type_id=lessons_type_id,
         like_guest=guest)
