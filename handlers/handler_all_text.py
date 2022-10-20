@@ -77,7 +77,7 @@ class HandlerAllText(Handler):
             if message.text == KEYBOARD['MATH']:
                 self.pressed_math_btn(message)
 
-            if message.text == KEYBOARD['ENG']:
+            if message.text == KEYBOARD['ENGLISH']:
                 self.pressed_eng_btn(message)
 
             if message.text == KEYBOARD['SOCIAL']:

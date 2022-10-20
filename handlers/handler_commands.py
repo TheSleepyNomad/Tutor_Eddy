@@ -15,17 +15,18 @@ class HandlerCommands(Handler):
         """
         Handle the /start command
         """
+        # Check user in DB
+        check_result = self.BD.check_user_on_exist_by_user_id(
+            message.from_user.id)
+
         # check user role /admin/student/guest
         # if check_admin_role(message.from_user.username):
         #     self.bot.send_message(message.chat.id, 'Админ вернулся!',
         #     reply_markup=self.keybords.admin_start_menu())
 
         # else:
-        # if user already 'speak' with bot
-        check_result = self.BD.check_user_on_exist_by_user_id(
-            message.from_user.id)
 
-        # if user not first time chat with bot
+        # if user already in database
         if check_result:
 
             # if user is student
@@ -41,9 +42,23 @@ class HandlerCommands(Handler):
         # for new visitors
         else:
             # send welcome msg
+            self.bot.send_message(message.chat.id, f'{MsgTemplates.START_MSG}')
+
+            # send msg for choosing language
             self.bot.send_message(message.chat.id,
-                                  f'{MsgTemplates.START_MSG}')
-            # reg user like guest
+                                  f'{MsgTemplates.CHOOSE_LANG_MSG}',
+                                  reply_markup=self.keybords.choose_language_menu())
+
+            # send msg for choosing language
+            self.bot.send_message(message.chat.id,
+                                  f'{MsgTemplates.CHOOSE_LANG_MSG}',
+                                  reply_markup=self.keybords.choose_language_menu())
+
+            # send msg and get user phone
+            self.bot.send_message(message.chat.id,
+                                  f'{MsgTemplates.SET_USR_SETTING}',
+                                  reply_markup=self.keybords.get_user_phone())
+            
             self.BD._add_new_student(message.from_user.username,
                                      message.from_user.id,
                                      message.from_user.first_name,
@@ -70,7 +85,7 @@ class HandlerCommands(Handler):
     def handle(self):
         @self.bot.message_handler(commands=['start', 'help', 'about'])
         def handle(message):
-            
+
             if message.text == '/start':
                 self.pressed_start_btn(message)
 

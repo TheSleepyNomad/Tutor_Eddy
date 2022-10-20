@@ -3,6 +3,7 @@ from enum import Enum
 # start message templates
 start_msg = "Стартовое сообщение"
 choose_language_msg = 'какой язык использовать?'
+set_user_settings = 'для настройки мне нужен ваш телефон'
 guests_start_msg = "Стартовое сообщение для гостя"
 students_start_msg = "Стартовое сообщение для студентов"
 admin_start_msg = 'Стартовое сообщение для админа'
@@ -25,6 +26,7 @@ class MsgTemplates(str, Enum):
     """
     START_MSG = start_msg
     CHOOSE_LANG_MSG = choose_language_msg
+    SET_USR_SETTING = set_user_settings
     GUEST_START_MSG = guests_start_msg
     STUDENTS_START_MSG = students_start_msg
     ADMIN_START_MSG = admin_start_msg

@@ -13,6 +13,7 @@ class Keyboards:
     def set_btn(self, name, request_contact=False):
         if request_contact:
             return KeyboardButton(KEYBOARD[name], request_contact=request_contact)
+
         return KeyboardButton(KEYBOARD[name])
 
     @staticmethod
@@ -66,11 +67,16 @@ class Keyboards:
     def lessons_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('MATH'))
-        self.markup.add(self.set_btn('ENG'))
+        self.markup.add(self.set_btn('ENGLISH'))
         self.markup.add(self.set_btn('SOCIAL'))
         return self.markup
     
     def choose_language_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.row(self.set_btn('ENG'), self.set_btn('RUS'))
+        return self.markup
+
+    def get_user_phone(self):
+        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup.add(self.set_btn('REQ_PHONE', True))
         return self.markup
