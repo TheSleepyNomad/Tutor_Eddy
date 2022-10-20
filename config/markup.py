@@ -69,3 +69,8 @@ class Keyboards:
         self.markup.add(self.set_btn('ENG'))
         self.markup.add(self.set_btn('SOCIAL'))
         return self.markup
+    
+    def choose_language_menu(self):
+        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup.row(self.set_btn('ENG'), self.set_btn('RUS'))
+        return self.markup
