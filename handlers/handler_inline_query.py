@@ -37,17 +37,30 @@ class HandlerInlineQuery(Handler):
 
     def more_about_lesson(self, call):
         self.bot.answer_callback_query(call.id)
+        
+        user = self.BD.get_user_by_user_id(call.from_user.id)
+        lesson = self.BD.get_guest_lesson_by_user_id(user.id)
+
         if call.data == 'Математика':
-            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
-                                  reply_markup=self.keybords.record_on_lesson_menu(1))
+            if lesson:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG)
+            else:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
+                                    reply_markup=self.keybords.record_on_lesson_menu(1))
 
         if call.data == 'Английский язык':
-            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
-                                  reply_markup=self.keybords.record_on_lesson_menu(2))
+            if lesson:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_ENG_MSG)
+            else:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_ENG_MSG,
+                                    reply_markup=self.keybords.record_on_lesson_menu(2))
 
         if call.data == 'Обществознание':
-            self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
-                                  reply_markup=self.keybords.record_on_lesson_menu(3))
+            if lesson:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG)
+            else:
+                self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG,
+                                    reply_markup=self.keybords.record_on_lesson_menu(3))
 
 
     def handle(self):
