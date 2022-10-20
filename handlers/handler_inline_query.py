@@ -37,7 +37,7 @@ class HandlerInlineQuery(Handler):
 
     def more_about_lesson(self, call):
         self.bot.answer_callback_query(call.id)
-        
+
         user = self.BD.get_user_by_user_id(call.from_user.id)
         lesson = self.BD.get_guest_lesson_by_user_id(user.id)
 
@@ -73,4 +73,4 @@ class HandlerInlineQuery(Handler):
                 self.del_last_bot_message(last_msg)
 
             else:
-                self.more_about_lesson(last_msg)
+                self.more_about_lesson(call)

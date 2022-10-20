@@ -55,7 +55,6 @@ class Keyboards:
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('MY_LESSONS'))
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
-        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('ABOUT_APP'))
         return self.markup
 
     def admin_start_menu(self):
@@ -68,17 +67,10 @@ class Keyboards:
     def guest_start_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('TEST_LESSON'))
-        self.markup.add(self.set_btn('HELP'))
-        self.markup.add(self.set_btn('ABOUT_TUTOR'))
-        self.markup.add(self.set_btn('ABOUT_APP'))
+        self.markup.row(self.set_btn('ABOUT_TUTOR'), self.set_btn('ABOUT_APP'))
+        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('HELP'))
         return self.markup
-    # del in future
-    def lessons_menu(self):
-        self.markup = ReplyKeyboardMarkup(True, True)
-        self.markup.add(self.set_btn('MATH'))
-        self.markup.add(self.set_btn('ENGLISH'))
-        self.markup.add(self.set_btn('SOCIAL'))
-        return self.markup
+    
     
     def choose_language_menu(self):
         self.markup = ReplyKeyboardMarkup(True, True)
