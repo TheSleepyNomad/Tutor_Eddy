@@ -28,11 +28,11 @@ class HandlerAllText(Handler):
         lesson = self.BD.get_guest_lesson_by_user_id(guest.id)
         if lesson:
             self.bot.send_message(message.chat.id,
-                                f'Вы уже записаны на занятие')
+                                  f'Вы уже записаны на занятие')
         else:
             self.bot.send_message(message.chat.id,
-                                f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                                reply_markup=self.keybords.guest_lesson_menu())
+                                  f'{MsgTemplates.ABOUT_LESSONS_MSG}',
+                                  reply_markup=self.keybords.guest_lesson_menu())
 
     def pressed_math_btn(self, message) -> None:
         self.bot.send_message(message.chat.id,
@@ -52,6 +52,20 @@ class HandlerAllText(Handler):
     def pressed_back_btn(self, message) -> None:
         self.bot.send_message(message.chat.id, "Вы вернулись назад",
                               reply_markup=self.keybords.guest_start_menu())
+
+    def pressed_back_btn(self, message) -> None:
+        self.bot.send_message(message.chat.id, "Выбран русский язык")
+        # send msg and get user phone
+        self.bot.send_message(message.chat.id,
+                              f'{MsgTemplates.SET_USR_SETTING}',
+                              reply_markup=self.keybords.get_user_phone())
+
+    def pressed_back_btn(self, message) -> None:
+        self.bot.send_message(message.chat.id, "Все равно будет русский =)")
+        # send msg and get user phone
+        self.bot.send_message(message.chat.id,
+                              f'{MsgTemplates.SET_USR_SETTING}',
+                              reply_markup=self.keybords.get_user_phone())
 
     def handle(self) -> None:
 
@@ -93,11 +107,14 @@ class HandlerAllText(Handler):
             if message.text == KEYBOARD['SETTINGS']:
                 pass
 
-            if message.text == KEYBOARD['REQ_PHONE']:
-                pass
-
             if message.text == KEYBOARD['HELP']:
                 self.pressed_help_btn(message)
+
+            if message.text == KEYBOARD['RUS']:
+                self.pressed_rus_lang_btn(message)
+
+            if message.text == KEYBOARD['ENG']:
+                self.pressed_eng_lang_btn(message)
 
             if message.text == KEYBOARD['<<']:
                 self.pressed_back_btn(message)

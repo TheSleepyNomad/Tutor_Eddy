@@ -49,25 +49,6 @@ class HandlerCommands(Handler):
                                   f'{MsgTemplates.CHOOSE_LANG_MSG}',
                                   reply_markup=self.keybords.choose_language_menu())
 
-            # send msg for choosing language
-            self.bot.send_message(message.chat.id,
-                                  f'{MsgTemplates.CHOOSE_LANG_MSG}',
-                                  reply_markup=self.keybords.choose_language_menu())
-
-            # send msg and get user phone
-            self.bot.send_message(message.chat.id,
-                                  f'{MsgTemplates.SET_USR_SETTING}',
-                                  reply_markup=self.keybords.get_user_phone())
-            
-            self.BD._add_new_student(message.from_user.username,
-                                     message.from_user.id,
-                                     message.from_user.first_name,
-                                     message.from_user.last_name)
-
-            self.bot.send_message(message.chat.id,
-                                  f'{MsgTemplates.GUEST_START_MSG}',
-                                  reply_markup=self.keybords.guest_start_menu())
-
     def pressed_help_btn(self, message) -> None:
         """
         Handle the /help command
