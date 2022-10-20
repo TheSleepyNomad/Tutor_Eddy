@@ -16,6 +16,8 @@ class HandlerCommands(Handler):
         """
         Handle the /start command
         """
+        test = self.BD.get_all_lesson_records()
+        print(test)
         # Check user in DB
         check_result = self.BD.check_user_on_exist_by_user_id(
             message.from_user.id)

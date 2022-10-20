@@ -40,4 +40,5 @@ KEYBOARD = {
     'SOCIAL': emojize(':hammer:Обществознание'),
     'RUS': emojize(':ru:Русский'),
     'ENG': emojize(':gb:English'),
+    'LANGUAGE': emojize(':gb:Язык'),
 }

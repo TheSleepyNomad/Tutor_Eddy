@@ -103,6 +103,18 @@ class DBManager(metaclass=Singleton):
         self.close()
         return result
 
+    def get_all_lesson_records(self):
+        result = self._session.query(
+            Lessons,
+            LessonsType,
+            Students).filter(
+                Lessons.lessons_type_id == LessonsType.id
+            ).filter(
+                Lessons.students_id == Students.id
+            ).all()
+        self.close()
+        return result
+
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
         lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id,
                          like_guest=guest)

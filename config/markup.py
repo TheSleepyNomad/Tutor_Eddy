@@ -65,7 +65,7 @@ class Keyboards:
         """
         set start menu for users with student role
         """
-        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('MY_LESSONS'))
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
         return self.markup
@@ -74,7 +74,7 @@ class Keyboards:
         """
         set start menu for users with admin role
         """
-        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('LESSONS'))
         self.markup.add(self.set_btn('ADD_STUDENT'))
         self.markup.add(self.set_btn('SETTINGS'))
@@ -84,10 +84,10 @@ class Keyboards:
         """
         set start menu for users with guest role
         """
-        self.markup = ReplyKeyboardMarkup(True, True)
+        self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('TEST_LESSON'))
-        self.markup.row(self.set_btn('ABOUT_TUTOR'), self.set_btn('ABOUT_APP'))
-        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('HELP'))
+        self.markup.row(self.set_btn('ABOUT_TUTOR'), self.set_btn('HELP'))
+        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('ABOUT_APP'))
         return self.markup
 
     def choose_language_menu(self) -> ReplyKeyboardMarkup:
