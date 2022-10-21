@@ -2,6 +2,7 @@ from telebot.types import KeyboardButton, ReplyKeyboardMarkup, \
     ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
 from config.settings import KEYBOARD
 from database.dbalchemy import DBManager
+from utils.data_classes import LessonRecord
 
 
 class Keyboards:
@@ -58,6 +59,15 @@ class Keyboards:
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in self.BD.get_all_lesson_types():
             self.markup.add(self.set_lesson_inline_btn(itm))
+
+        return self.markup
+
+    def lesson_records(self, lesson_record: list) -> InlineKeyboardMarkup:
+        # Todo переделать логику callback_data
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        for itm in lesson_record:
+            self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name}'),
+                                    callback_data=str({'lesson_record':itm.student_name})))
 
         return self.markup
 

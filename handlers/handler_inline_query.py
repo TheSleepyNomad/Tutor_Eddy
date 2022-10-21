@@ -1,5 +1,4 @@
-from cgitb import text
-from re import I
+
 from handlers.handler import Handler
 from config.settings import KEYBOARD
 from config.messages import MsgTemplates
@@ -81,7 +80,7 @@ class HandlerInlineQuery(Handler):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call: CallbackQuery):
             data = call.data
-            print(type(call))
+            print(call)
             if data.isdigit():
                 last_msg = self.record_on_test_lesson(call)
                 self.del_last_bot_message(last_msg)

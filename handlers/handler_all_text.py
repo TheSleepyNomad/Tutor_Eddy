@@ -76,6 +76,12 @@ class HandlerAllText(Handler):
                               f'{MsgTemplates.SET_USR_SETTING}',
                               reply_markup=self.keybords.get_user_phone())
 
+    def show_all_lessons(self, message: Message) -> None:
+        list_of_records = self.BD.get_all_lesson_records()
+        self.bot.send_message(message.chat.id,
+                              f'Все уроки',
+                              reply_markup=self.keybords.lesson_records(list_of_records))
+
     def handle(self) -> None:
         
         @self.bot.message_handler(func=lambda message: True)
@@ -83,7 +89,7 @@ class HandlerAllText(Handler):
             # ---- menu btns -----
             # admin keyboard btns
             if message.text == KEYBOARD['LESSONS']:
-                pass
+                self.show_all_lessons(message)
 
             if message.text == KEYBOARD['ADD_STUDENT']:
                 pass
