@@ -87,6 +87,7 @@ class Keyboards:
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('LESSONS'))
         self.markup.add(self.set_btn('ADD_STUDENT'))
+        self.markup.row(self.set_btn('ABOUT_APP'), self.set_btn('HELP'))
         self.markup.add(self.set_btn('SETTINGS'))
         return self.markup
 

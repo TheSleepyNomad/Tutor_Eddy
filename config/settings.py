@@ -22,8 +22,8 @@ ADMIN_ID = getenv('ADMIN_ID')
 # control btns
 KEYBOARD = {
     # for admin
-    'LESSONS': emojize(':book: Все записи'),
-    'ADD_STUDENT': emojize(':busts_in_silhouette: Новый ученик'),
+    'LESSONS': emojize(':book: Журнал уроков'),
+    'ADD_STUDENT': emojize(':busts_in_silhouette: Ученики'),
     # for students
     'MY_LESSONS': emojize(':books:Мои занятия'),
     'REQ_PHONE': emojize(':iphone:Поделиться телефоном'),
