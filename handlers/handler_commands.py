@@ -18,6 +18,7 @@ class HandlerCommands(Handler):
         """
         test = self.BD.get_all_lesson_records()
         print(test)
+        print(test[0])
         # Check user in DB
         check_result = self.BD.check_user_on_exist_by_user_id(
             message.from_user.id)

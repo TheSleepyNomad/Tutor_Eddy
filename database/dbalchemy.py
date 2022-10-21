@@ -7,7 +7,7 @@ from models.lessons_type import LessonsType
 from models.lessons import Lessons
 from config.settings import DATABASE
 from os import path
-
+from utils.utils import _convert_in_class
 
 class Singleton(type):
 
@@ -105,15 +105,25 @@ class DBManager(metaclass=Singleton):
 
     def get_all_lesson_records(self):
         result = self._session.query(
-            Lessons,
-            LessonsType,
-            Students).filter(
+            Lessons.students_id,
+            Lessons.lessons_type_id,
+            Lessons.date,
+            Lessons.payment,
+            Lessons.like_guest,
+            LessonsType.type_name,
+            Students.first_name,
+            Students.last_name,
+            Students.phone,).filter(
                 Lessons.lessons_type_id == LessonsType.id
             ).filter(
                 Lessons.students_id == Students.id
             ).all()
+        
         self.close()
-        return result
+
+        lesson_records = _convert_in_class(result)
+        
+        return lesson_records
 
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
         lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id,
