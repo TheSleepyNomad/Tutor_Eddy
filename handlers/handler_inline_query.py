@@ -77,10 +77,16 @@ class HandlerInlineQuery(Handler):
                                       reply_markup=self.keybords.record_on_lesson_menu(3))
 
     def show_extended_info(self, call: CallbackQuery) -> None:
-        lesson_record = self.BD.get_one_lesson_records(int(call.data[17:-1].strip()))
+        lesson_record = self.BD.get_one_lesson_records(
+            int(call.data[17:-1].strip()))
         print(lesson_record)
-        self.bot.answer_callback_query(
-            call.id, 'Вы записаны - ждите', show_alert=True)
+        self.bot.answer_callback_query(call.id, MsgTemplates.ABOUT_LESSON_MSG.format(
+            lesson_record[0].student_name,
+            lesson_record[0].student_phone,
+            lesson_record[0].lesson_name,
+            lesson_record[0].lesson_date,
+            lesson_record[0].is_payment),
+            show_alert=True)
 
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
