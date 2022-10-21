@@ -9,6 +9,7 @@ from config.settings import DATABASE
 from os import path
 from utils.utils import _convert_in_class
 
+
 class Singleton(type):
 
     def __init__(cls, name, bases, attrs, **kwargs):
@@ -103,8 +104,9 @@ class DBManager(metaclass=Singleton):
         self.close()
         return result
 
-    def get_all_lesson_records(self):
+    def get_one_lesson_records(self, lesson_id: int):
         result = self._session.query(
+            Lessons.id,
             Lessons.students_id,
             Lessons.lessons_type_id,
             Lessons.date,
@@ -115,14 +117,37 @@ class DBManager(metaclass=Singleton):
             Students.last_name,
             Students.phone,).filter(
                 Lessons.lessons_type_id == LessonsType.id
-            ).filter(
+        ).filter(
                 Lessons.students_id == Students.id
-            ).all()
-        
+        ).filter_by(id=lesson_id).all()
+
+        self.close()
+
+        lesson_record = _convert_in_class(result)
+        print(lesson_record)
+        return lesson_record
+
+    def get_all_lesson_records(self):
+        result = self._session.query(
+            Lessons.id,
+            Lessons.students_id,
+            Lessons.lessons_type_id,
+            Lessons.date,
+            Lessons.payment,
+            Lessons.like_guest,
+            LessonsType.type_name,
+            Students.first_name,
+            Students.last_name,
+            Students.phone,).filter(
+                Lessons.lessons_type_id == LessonsType.id
+        ).filter(
+                Lessons.students_id == Students.id
+        ).all()
+
         self.close()
 
         lesson_records = _convert_in_class(result)
-        
+
         return lesson_records
 
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:

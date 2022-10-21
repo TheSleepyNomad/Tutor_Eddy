@@ -76,11 +76,19 @@ class HandlerInlineQuery(Handler):
                 self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG,
                                       reply_markup=self.keybords.record_on_lesson_menu(3))
 
+    def show_extended_info(self, call: CallbackQuery) -> None:
+        lesson_record = self.BD.get_one_lesson_records(int(call.data[17:-1].strip()))
+        print(lesson_record)
+        self.bot.answer_callback_query(
+            call.id, 'Вы записаны - ждите', show_alert=True)
+
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call: CallbackQuery):
             data = call.data
-            print(call)
+            if 'lesson_record' in data:
+                self.show_extended_info(call)
+
             if data.isdigit():
                 last_msg = self.record_on_test_lesson(call)
                 self.del_last_bot_message(last_msg)

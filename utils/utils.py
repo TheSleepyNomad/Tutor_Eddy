@@ -10,17 +10,19 @@ def check_admin_role(username: str) -> bool:
 
 def _convert_in_class(query_result: List[str]) -> List[LessonRecord]:
     recors_list = []
+    print(query_result)
     for item in query_result:
         recors_list.append(
             LessonRecord(
-                student_id=item[0],
-                lesson_type_id=item[1],
-                student_name= f'{item[6]} {item[7]}',
-                student_phone=item[8],
-                lesson_name=item[5],
-                lesson_date= item[2] if item[2] else 'Пробное занятие',
-                is_payment=item[3],
-                is_test_lesson=item[4],
+                lesson_id=item[0],
+                student_id=item[1],
+                lesson_type_id=item[2],
+                student_name= f'{item[7]} {item[8]}',
+                student_phone=item[9],
+                lesson_name=item[6],
+                lesson_date= item[3] if item[3] else 'Пробное занятие',
+                is_payment=item[4],
+                is_test_lesson=item[5],
             )
         )
     

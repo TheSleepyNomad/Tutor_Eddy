@@ -5,6 +5,7 @@ from typing import Union
 
 @dataclass(frozen=True)
 class LessonRecord:
+    lesson_id: int
     student_id: int
     lesson_type_id: int
     student_name: str
