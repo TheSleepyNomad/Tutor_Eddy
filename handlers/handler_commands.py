@@ -1,5 +1,4 @@
 from handlers.handler import Handler
-from utils.utils import check_admin_role
 from config.messages import MsgTemplates
 from telebot.types import Message
 
