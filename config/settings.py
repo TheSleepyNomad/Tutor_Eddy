@@ -22,14 +22,14 @@ ADMIN_ID = getenv('ADMIN_ID')
 # control btns
 KEYBOARD = {
     # for admin
-    'LESSONS': emojize(':book: Журнал уроков'),
-    'ADD_STUDENT': emojize(':busts_in_silhouette: Ученики'),
+    'LESSONS': '\U0001F4D6'+'Записи',
+    'STUDENTS': emojize(':busts_in_silhouette: Ученики'),
     # for students
     'MY_LESSONS': emojize(':books:Мои занятия'),
-    'REQ_PHONE': emojize(':iphone:Поделиться телефоном'),
+    'REQ_PHONE': '\U0001F4F2' + 'Поделиться телефоном',
     # for guest
-    'ABOUT_TUTOR': emojize(':information_desk_person:О Марии...'),
-    'TEST_LESSON': emojize(':date:Пробное занятие'),
+    'ABOUT_TUTOR': '\U0001F469\U0000200D\U0001F3EB' + 'О Марии...',
+    'TEST_LESSON': '\U0001F4C5' + 'Пробное занятие',
     # other
     'HELP': emojize(':speech_balloon:Помощь'),
     '<<': emojize('⏪ Назад'),
@@ -38,8 +38,8 @@ KEYBOARD = {
     'MATH': emojize(':triangular_ruler:Математика'),
     'ENGLISH': emojize(':european_castle:Английский язык'),
     'SOCIAL': emojize(':hammer:Обществознание'),
-    'RUS': emojize(':ru:Русский'),
-    'ENG': emojize(':gb:English'),
+    'RUS': '\U0001F1F7\U0001F1FA' + 'Русский',
+    'ENG': '\U0001F1EC\U0001F1E7' + 'English',
     'LANGUAGE': emojize(':gb:Язык'),
-    'CHANGE_LNG': emojize(':gb:Сменить язык'),
+    'CHANGE_LNG': '\U0001F30D' + 'Сменить язык',
 }

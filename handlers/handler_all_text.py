@@ -109,7 +109,7 @@ class HandlerAllText(Handler):
             if message.text == KEYBOARD['LESSONS']:
                 self.show_all_lessons(message)
 
-            if message.text == KEYBOARD['ADD_STUDENT']:
+            if message.text == KEYBOARD['STUDENTS']:
                 pass
 
             # student keyboard btns

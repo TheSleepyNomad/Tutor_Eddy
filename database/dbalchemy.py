@@ -54,15 +54,18 @@ class DBManager(metaclass=Singleton):
     def check_user_role(self, user_id: int) -> str:
         try:
             user = self.check_user_on_exist_by_user_id(user_id)
-            if str(user.user_id) == ADMIN_ID:
-                return 'admin'
+            if user:
+                if str(user.user_id) == ADMIN_ID:
+                    return 'admin'
 
-            if user.guest_is:
-                return 'guest'
+                if user.guest_is:
+                    return 'guest'
 
-            if not user.guest_is:
-                return 'student'
-                
+                if not user.guest_is:
+                    return 'student'
+            else:
+                return False
+
         except NoResultFound:
             self.close()
             return False

@@ -78,6 +78,7 @@ class Keyboards:
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('MY_LESSONS'))
         self.markup.add(self.set_btn('ABOUT_TUTOR'))
+        self.markup.row(self.set_btn('HELP'), self.set_btn('SETTINGS'))
         return self.markup
 
     def admin_start_menu(self) -> ReplyKeyboardMarkup:
@@ -86,9 +87,8 @@ class Keyboards:
         """
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('LESSONS'))
-        self.markup.add(self.set_btn('ADD_STUDENT'))
-        self.markup.row(self.set_btn('ABOUT_APP'), self.set_btn('HELP'))
-        self.markup.add(self.set_btn('SETTINGS'))
+        self.markup.add(self.set_btn('STUDENTS'))
+        self.markup.row(self.set_btn('HELP'), self.set_btn('SETTINGS'))
         return self.markup
 
     def guest_start_menu(self) -> ReplyKeyboardMarkup:
