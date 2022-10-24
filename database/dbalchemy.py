@@ -8,6 +8,7 @@ from models.lessons import Lessons
 from config.settings import DATABASE, ADMIN_ID
 from os import path
 from utils.utils import _convert_in_class
+from datetime import datetime
 
 
 class Singleton(type):
@@ -169,9 +170,15 @@ class DBManager(metaclass=Singleton):
 
         return lesson_records
 
-    def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool) -> None:
-        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id,
+    def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool, date=datetime.now()) -> None:
+        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id, date=date,
                          like_guest=guest)
         self._session.add(lesson)
         self._session.commit()
         self.close()
+
+    def get_all_students(self):
+        students = self._session.query(
+            Students).all()
+        self.close()
+        return students

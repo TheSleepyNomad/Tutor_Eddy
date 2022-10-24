@@ -93,6 +93,16 @@ class HandlerAllText(Handler):
                               f'Все уроки',
                               reply_markup=self.keybords.lesson_records(list_of_records))
 
+    def show_admin_lessons_menu(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id,
+                              f'Вы перешли в меню записей',
+                              reply_markup=self.keybords.admin_lesson_records_menu())
+
+    def add_new_lesson(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id,
+                              f'По какому предмету делаем запись?',
+                              reply_markup=self.keybords.add_lesson_inline_btn())
+
     def pressed_settings_btn(self, message: Message) -> None:
         """
         handle settings btn
@@ -107,7 +117,13 @@ class HandlerAllText(Handler):
             # ---- menu btns -----
             # admin keyboard btns
             if message.text == KEYBOARD['LESSONS']:
+                self.show_admin_lessons_menu(message)
+
+            if message.text == KEYBOARD['ALL_LESSONS']:
                 self.show_all_lessons(message)
+
+            if message.text == KEYBOARD['ADD_LESSON']:
+                self.add_new_lesson(message)
 
             if message.text == KEYBOARD['STUDENTS']:
                 pass

@@ -3,7 +3,7 @@ from telebot.types import KeyboardButton, ReplyKeyboardMarkup, \
 from config.settings import KEYBOARD
 from database.dbalchemy import DBManager
 from utils.data_classes import LessonRecord
-
+from datetime import timedelta, datetime
 
 class Keyboards:
 
@@ -67,7 +67,7 @@ class Keyboards:
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
             self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name}'),
-                                    callback_data=str({'lesson_record':itm.lesson_id})))
+                                                 callback_data=str({'lesson_record': itm.lesson_id})))
 
         return self.markup
 
@@ -129,6 +129,33 @@ class Keyboards:
     def admin_lesson_records_menu(self) -> ReplyKeyboardMarkup:
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('ALL_LESSONS'))
-        self.markup.row(self.set_btn('ADD_LESSON'), self.set_btn('CHANGE_LESSON'))
+        self.markup.row(self.set_btn('ADD_LESSON'),
+                        self.set_btn('CHANGE_LESSON'))
         self.markup.add(self.set_btn('<<'))
+        return self.markup
+
+    def add_lesson_inline_btn(self) -> InlineKeyboardMarkup:
+        """
+        """
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        for itm in self.BD.get_all_lesson_types():
+            self.markup.add(InlineKeyboardButton(str(f'{itm.type_name}'),
+                                                 callback_data=str({'add_lsn': itm.id})))
+
+        return self.markup
+
+    def add_lesson_student_inline_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        for itm in self.BD.get_all_students():
+            self.markup.add(InlineKeyboardButton(str(f'{itm.first_name}'),
+                                                 callback_data=str({'add_lsn': itm.id, 'lsn_id': lesson_id})))
+
+        return self.markup
+
+    def add_lesson_student_date_inline_btn(self, lesson_id, student_id):
+        date_list = [datetime.today() + timedelta(_) for _ in range(13)]
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        for day in date_list:
+            self.markup.add(InlineKeyboardButton(str(f'{day.date()}'),
+                                                 callback_data=str({'add_lsn': student_id, 'lsn_id': lesson_id, 'date': str(day.date())})))
         return self.markup
