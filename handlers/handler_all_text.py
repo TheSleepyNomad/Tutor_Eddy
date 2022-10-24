@@ -53,8 +53,19 @@ class HandlerAllText(Handler):
         """
         handle return back btn
         """
-        self.bot.send_message(message.chat.id, "Вы вернулись назад",
+        user_role = self.BD.check_user_role(message.from_user.id)
+        if user_role == 'admin':
+             self.bot.send_message(message.chat.id, "Вы вернулись назад",
+                              reply_markup=self.keybords.admin_start_menu())
+
+        if user_role == 'student':
+             self.bot.send_message(message.chat.id, "Вы вернулись назад",
+                              reply_markup=self.keybords.students_start_menu())
+
+        if user_role == 'guest':
+             self.bot.send_message(message.chat.id, "Вы вернулись назад",
                               reply_markup=self.keybords.guest_start_menu())
+
 
     def pressed_rus_lang_btn(self, message: Message) -> None:
         """
