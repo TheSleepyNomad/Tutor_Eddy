@@ -23,7 +23,12 @@ ADMIN_ID = getenv('ADMIN_ID')
 KEYBOARD = {
     # for admin
     'LESSONS': '\U0001F4D6'+'Записи',
+    'ALL_LESSONS': 'Все Записи',
+    'ADD_LESSON': 'Новая запись',
+    'CHANGE_LESSON': 'Изменить запись',
     'STUDENTS': emojize(':busts_in_silhouette: Ученики'),
+    'MY_STUDENTS': 'Мои ученики',
+    'MY_GUESTS': 'Новые ученики',
     # for students
     'MY_LESSONS': emojize(':books:Мои занятия'),
     'REQ_PHONE': '\U0001F4F2' + 'Поделиться телефоном',

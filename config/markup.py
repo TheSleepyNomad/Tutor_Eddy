@@ -125,3 +125,10 @@ class Keyboards:
         self.markup.row(self.set_btn('CHANGE_LNG'), self.set_btn('ABOUT_APP'))
         self.markup.add(self.set_btn('<<'))
         return self.markup
+
+    def admin_lesson_records_menu(self) -> ReplyKeyboardMarkup:
+        self.markup = ReplyKeyboardMarkup(True)
+        self.markup.add(self.set_btn('ALL_LESSONS'))
+        self.markup.row(self.set_btn('ADD_LESSON'), self.set_btn('CHANGE_LESSON'))
+        self.markup.add(self.set_btn('<<'))
+        return self.markup
