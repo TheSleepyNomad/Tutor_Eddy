@@ -116,3 +116,12 @@ class Keyboards:
         self.markup = ReplyKeyboardMarkup(True, True)
         self.markup.add(self.set_btn('REQ_PHONE', True))
         return self.markup
+
+    def settings_menu(self) -> ReplyKeyboardMarkup:
+        """
+        set setting menu for all users
+        """
+        self.markup = ReplyKeyboardMarkup(True)
+        self.markup.row(self.set_btn('CHANGE_LNG'), self.set_btn('ABOUT_APP'))
+        self.markup.add(self.set_btn('<<'))
+        return self.markup

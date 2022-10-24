@@ -5,7 +5,7 @@ from database.database_core import Base
 from models.students import Students
 from models.lessons_type import LessonsType
 from models.lessons import Lessons
-from config.settings import DATABASE
+from config.settings import DATABASE, ADMIN_ID
 from os import path
 from utils.utils import _convert_in_class
 
@@ -47,6 +47,22 @@ class DBManager(metaclass=Singleton):
             self.close()
             return result
 
+        except NoResultFound:
+            self.close()
+            return False
+
+    def check_user_role(self, user_id: int) -> str:
+        try:
+            user = self.check_user_on_exist_by_user_id(user_id)
+            if str(user.user_id) == ADMIN_ID:
+                return 'admin'
+
+            if user.guest_is:
+                return 'guest'
+
+            if not user.guest_is:
+                return 'student'
+                
         except NoResultFound:
             self.close()
             return False

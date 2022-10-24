@@ -18,20 +18,19 @@ class HandlerCommands(Handler):
         """
         test = self.BD.get_all_lesson_records()
         # Check user in DB
-        check_result = self.BD.check_user_on_exist_by_user_id(
-            message.from_user.id)
+        user_role = self.BD.check_user_role(message.from_user.id)
 
         # check user role /admin/student/guest
-        if check_admin_role(message.from_user.username):
+        if user_role == 'admin':
             self.bot.send_message(message.chat.id, 'Админ вернулся!',
             reply_markup=self.keybords.admin_start_menu())
 
         else:
             # if user already in database
-            if check_result:
+            if user_role:
 
                 # if user is student
-                if not check_result.guest_is:
+                if user_role == 'student':
                     self.bot.send_message(message.chat.id,
                                         f'{MsgTemplates.STUDENTS_START_MSG}',
                                         reply_markup=self.keybords.students_start_menu())

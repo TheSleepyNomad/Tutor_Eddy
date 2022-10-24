@@ -32,7 +32,7 @@ KEYBOARD = {
     'TEST_LESSON': emojize(':date:Пробное занятие'),
     # other
     'HELP': emojize(':speech_balloon:Помощь'),
-    '<<': emojize('⏪'),
+    '<<': emojize('⏪ Назад'),
     'SETTINGS': emojize('⚙️Настройки'),
     'ABOUT_APP': emojize(':red_question_mark:О программе'),
     'MATH': emojize(':triangular_ruler:Математика'),
@@ -41,4 +41,5 @@ KEYBOARD = {
     'RUS': emojize(':ru:Русский'),
     'ENG': emojize(':gb:English'),
     'LANGUAGE': emojize(':gb:Язык'),
+    'CHANGE_LNG': emojize(':gb:Сменить язык'),
 }

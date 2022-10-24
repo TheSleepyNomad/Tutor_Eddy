@@ -82,6 +82,13 @@ class HandlerAllText(Handler):
                               f'Все уроки',
                               reply_markup=self.keybords.lesson_records(list_of_records))
 
+    def pressed_settings_btn(self, message: Message) -> None:
+        """
+        handle settings btn
+        """
+        self.bot.send_message(message.chat.id, 'Ваши текущие настройки',
+                              reply_markup=self.keybords.settings_menu())
+
     def handle(self) -> None:
         
         @self.bot.message_handler(func=lambda message: True)
@@ -110,7 +117,7 @@ class HandlerAllText(Handler):
                 self.pressed_about_app_btn(message)
 
             if message.text == KEYBOARD['SETTINGS']:
-                pass
+                self.pressed_settings_btn(message)
 
             if message.text == KEYBOARD['HELP']:
                 self.pressed_help_btn(message)
