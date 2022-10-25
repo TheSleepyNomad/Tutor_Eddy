@@ -89,6 +89,12 @@ class DBManager(metaclass=Singleton):
         self._session.commit()
         self.close()
 
+    def update_lesson(self, lesson_id: int, name: str, value) -> None:
+        self._session.query(Lessons).filter_by(
+            id=lesson_id).update({name: value})
+        self._session.commit()
+        self.close()
+
     def get_user_by_user_id(self, user_id: int):
         result = self._session.query(
             Students).filter_by(user_id=user_id).one()

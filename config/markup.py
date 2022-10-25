@@ -5,6 +5,7 @@ from database.dbalchemy import DBManager
 from utils.data_classes import LessonRecord
 from datetime import timedelta, datetime
 
+
 class Keyboards:
 
     def __init__(self):
@@ -171,10 +172,54 @@ class Keyboards:
     def upd_btns(self, lesson_id):
         self.markup = InlineKeyboardMarkup(row_width=1)
         self.markup.row(InlineKeyboardButton('Студента', callback_data=str(f'upd_ls user {lesson_id}')),
-                        InlineKeyboardButton('Предмет', callback_data=str(f'upd_ls ls_type {lesson_id}')),
+                        InlineKeyboardButton('Предмет', callback_data=str(
+                            f'upd_ls ls_type {lesson_id}')),
                         InlineKeyboardButton('Дату', callback_data=str(f'upd_ls date {lesson_id}')))
 
-        self.markup.add(InlineKeyboardButton('Статус оплаты', callback_data=str(f'upd_ls pay {lesson_id}')))
+        self.markup.add(InlineKeyboardButton('Статус оплаты',
+                        callback_data=str(f'upd_ls pay {lesson_id}')))
 
-        self.markup.add(InlineKeyboardButton('Вернуться к списку', callback_data='return_to_upd_ls_list'))
+        self.markup.add(InlineKeyboardButton(
+            'Вернуться к списку', callback_data='return_to_upd_ls_list'))
+        return self.markup
+
+    def upd_student_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        students = self.BD.get_all_students()
+        for student in students:
+            self.markup.add(InlineKeyboardButton(str(f'{student}'),
+                                                 callback_data=f'upd_ls user value {lesson_id} {student.id}'))
+        return self.markup
+
+    def upd_ls_type_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        lesson_types = self.BD.get_all_lesson_types()
+        for lesson_type in lesson_types:
+            self.markup.add(InlineKeyboardButton(str(f'{lesson_type}'),
+                                                 callback_data=f'upd_ls ls_type value {lesson_id} {lesson_type.id}'))
+        return self.markup
+
+    def upd_ls_type_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        lesson_types = self.BD.get_all_lesson_types()
+        for lesson_type in lesson_types:
+            self.markup.add(InlineKeyboardButton(str(f'{lesson_type}'),
+                                                 callback_data=f'upd_ls ls_type value {lesson_id} {lesson_type.id}'))
+        return self.markup
+
+    def upd_date_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        dates_list = [datetime.today() + timedelta(_) for _ in range(13)]
+        for date_list in dates_list:
+            self.markup.add(InlineKeyboardButton(str(f'{date_list}'),
+                                                 callback_data=f'upd_ls date value {lesson_id} {date_list}'))
+        return self.markup
+
+    def upd_payment_btn(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        self.markup.row(InlineKeyboardButton('Да',
+                        callback_data=f'upd_ls ls_type value {lesson_id} 1'),
+                        InlineKeyboardButton('Нет',
+                        callback_data=f'upd_ls ls_type value {lesson_id} 0'))
+
         return self.markup

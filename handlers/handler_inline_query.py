@@ -111,6 +111,52 @@ class HandlerInlineQuery(Handler):
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Что вы хотите изменить?', message_id=call.message.id, reply_markup=self.keybords.upd_btns(lesson_id))
 
+    def select_for_upd_student(self, call):
+        self.bot.answer_callback_query(call.id)
+        lesson_id = findall('\d+', call.data)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.upd_student_btn(lesson_id))
+
+    def select_for_upd_ls_type(self, call):
+        self.bot.answer_callback_query(call.id)
+        lesson_id = findall('\d+', call.data)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Изменить предмет', message_id=call.message.id, reply_markup=self.keybords.upd_ls_type_btn(lesson_id))
+
+    def select_for_upd_date(self, call):
+        self.bot.answer_callback_query(call.id)
+        lesson_id = findall('\d+', call.data)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'На какую дату перенести', message_id=call.message.id, reply_markup=self.keybords.upd_date_btn(lesson_id))
+
+    def select_for_upd_pay(self, call):
+        self.bot.answer_callback_query(call.id)
+        lesson_id = findall('\d+', call.data)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Оплата была?', message_id=call.message.id, reply_markup=self.keybords.upd_payment_btn(lesson_id))
+        
+    def upd_lesson_record(self, call, student_id=None, lesson_type_id=None, date=None, payment=None):
+        self.bot.answer_callback_query(call.id)
+        if student_id:
+            print('----')
+            lesson_id, value = findall('\d+', call.data)
+            self.BD.update_lesson(lesson_id, student_id, value)
+
+        elif lesson_type_id:
+            lesson_id, value = findall('\d+', call.data)
+            self.BD.update_lesson(lesson_id, lesson_type_id, value)
+            
+        elif date:
+            lesson_id = findall('\d+', call.data)
+            value = findall('\d+.\d+.\d+', call.data)
+            self.BD.update_lesson(lesson_id[0], date, datetime.strptime(value[0], '%Y-%m-%d'))
+        elif payment:
+            lesson_id, value = findall('\d+', call.data)
+            self.BD.update_lesson(lesson_id, payment, True)
+        
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Успешно!', message_id=call.message.id, reply_markup='')
+
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call: CallbackQuery):
@@ -144,24 +190,24 @@ class HandlerInlineQuery(Handler):
             if 'upd_ls' in data:
                 if 'user' in data:
                     if 'value' in data:
-                        self.upd_lesson_record(call)
+                        self.upd_lesson_record(call, student_id='students_id')
                     else:
                         self.select_for_upd_student(call)
-                if 'ls_type' in data:
+                elif 'ls_type' in data:
                     if 'value' in data:
-                        self.upd_lesson_record(call)
+                        self.upd_lesson_record(call, lesson_type_id='lessons_type_id')
                     else:
                         self.select_for_upd_ls_type(call)
-                if 'date' in data:
+                elif 'date' in data:
                     if 'value' in data:
-                        self.upd_lesson_record(call)
+                        self.upd_lesson_record(call, date='date')
                     else:
                         self.select_for_upd_date(call)
-                if 'pay' in data:
+                elif 'pay' in data:
                     if 'value' in data:
-                        self.upd_lesson_record(call)
+                        self.upd_lesson_record(call, payment='payment')
                     else:
-                        self.select_for_upd_date(call)
+                        self.select_for_upd_pay(call)
                 else:
                     self.selected_lesson(call)
 
