@@ -13,6 +13,7 @@ class HandlerInlineQuery(Handler):
     def __init__(self, bot):
         super().__init__(bot)
 
+    # Todo rename this function
     def send_new_student_for_admin(self, user):
         """
         send notification about new student for admin
@@ -26,6 +27,7 @@ class HandlerInlineQuery(Handler):
                               f'Вы можете связаться с ним по телефону {user.phone}',
                               reply_markup=self.keybords.guest_start_menu())
 
+    # Todo raname this function
     def record_on_test_lesson(self, call: CallbackQuery) -> CallbackQuery:
         """
         write user on test lesson
@@ -78,6 +80,7 @@ class HandlerInlineQuery(Handler):
                 self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG,
                                       reply_markup=self.keybords.record_on_lesson_menu(3))
 
+    # Todo rename this function
     def show_extended_info(self, call: CallbackQuery) -> None:
         lesson_record = self.BD.get_one_lesson_records(
             int(call.data[17:-1].strip()))
@@ -90,51 +93,60 @@ class HandlerInlineQuery(Handler):
             lesson_record[0].is_payment),
             show_alert=True)
 
+    # Todo rename this function
     def add_lesson_select_student(self, call, lesson_name):
         self.bot.answer_callback_query(call.id)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Кого записываем на {lesson_name.type_name}', message_id=call.message.id, reply_markup=self.keybords.add_lesson_student_inline_btn(lesson_name.id))
 
+    # Todo rename this function
     def add_lesson_select_date(self, call, lesson_id, student_id):
         self.bot.answer_callback_query(call.id)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'На какое число записать?', message_id=call.message.id, reply_markup=self.keybords.add_lesson_student_date_inline_btn(lesson_id, student_id))
 
+    # Todo rename this function
     def create_new_lesson_record(self, call, lesson_id, student_id, date):
         self.bot.answer_callback_query(call.id)
         self.BD._add_new_lesson(student_id, lesson_id,
                                 False, datetime.strptime(date, '%Y-%m-%d'))
-
+    # Todo rename this function
     def selected_lesson(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Что вы хотите изменить?', message_id=call.message.id, reply_markup=self.keybords.upd_btns(lesson_id))
 
+    # Todo rename this function
     def select_for_upd_student(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.upd_student_btn(lesson_id))
 
+    # Todo rename this function
     def select_for_upd_ls_type(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Изменить предмет', message_id=call.message.id, reply_markup=self.keybords.upd_ls_type_btn(lesson_id))
 
+    # Todo rename this function
     def select_for_upd_date(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'На какую дату перенести', message_id=call.message.id, reply_markup=self.keybords.upd_date_btn(lesson_id))
 
+    # Todo rename this function
     def select_for_upd_pay(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Оплата была?', message_id=call.message.id, reply_markup=self.keybords.upd_payment_btn(lesson_id))
-        
+    
+    # Todo rename this function
+    # Todo think about refactorin/ find how optimizate    
     def upd_lesson_record(self, call, student_id=None, lesson_type_id=None, date=None, payment=None):
         self.bot.answer_callback_query(call.id)
         if student_id:
@@ -160,6 +172,9 @@ class HandlerInlineQuery(Handler):
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call: CallbackQuery):
+
+            # ! Need documentation
+            # Todo write utils functions and delete part of this code
             data = call.data
             if 'lesson_record' in data:
                 self.show_extended_info(call)

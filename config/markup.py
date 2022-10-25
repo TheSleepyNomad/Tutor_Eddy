@@ -12,6 +12,12 @@ class Keyboards:
         self.markup = None
         self.BD = DBManager()
 
+    # ! Add descriptions
+    # Admin btns and keyboard
+    # Students btns and keyboard
+    # Guest btns and keyboard
+    # Other functions
+    # * good
     def set_btn(self, name, request_contact=False) -> KeyboardButton:
         """
         set button on ReplyKeyboardMarkup
@@ -21,6 +27,7 @@ class Keyboards:
 
         return KeyboardButton(KEYBOARD[name])
 
+    # * good
     @staticmethod
     def remove_menu() -> ReplyKeyboardRemove:
         """
@@ -68,6 +75,7 @@ class Keyboards:
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
             self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
+                                                                    # Todo rename 'key'
                                                  callback_data=str({'lesson_record': itm.lesson_id})))
 
         return self.markup
