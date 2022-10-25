@@ -40,7 +40,14 @@ class DBManager(metaclass=Singleton):
         Close session
         """
         self._session.close()
-
+    # Lesson table
+    # Lesson_type table
+    # Student table
+    # Other functions
+    # ! Important
+    # Todo del one of them. check_user_on_exist_by_user_id or get_user_by_user_id
+    # Todo and rename
+    # Todo check links on functions and repair them all
     def check_user_on_exist_by_user_id(self, user_id: int) -> bool:
         try:
             result = self._session.query(
