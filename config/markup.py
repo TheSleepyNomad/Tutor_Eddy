@@ -66,7 +66,7 @@ class Keyboards:
         # Todo переделать логику callback_data
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
-            self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name}'),
+            self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
                                                  callback_data=str({'lesson_record': itm.lesson_id})))
 
         return self.markup
@@ -158,4 +158,23 @@ class Keyboards:
         for day in date_list:
             self.markup.add(InlineKeyboardButton(str(f'{day.date()}'),
                                                  callback_data=str({'add_lsn': student_id, 'lsn_id': lesson_id, 'date': str(day.date())})))
+        return self.markup
+
+    def update_lessons_menu(self, lesson_record):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        for itm in lesson_record:
+            self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
+                                                 callback_data=str({'upd_ls': itm.lesson_id})))
+
+        return self.markup
+
+    def upd_btns(self, lesson_id):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        self.markup.row(InlineKeyboardButton('Студента', callback_data=str(f'upd_ls user {lesson_id}')),
+                        InlineKeyboardButton('Предмет', callback_data=str(f'upd_ls ls_type {lesson_id}')),
+                        InlineKeyboardButton('Дату', callback_data=str(f'upd_ls date {lesson_id}')))
+
+        self.markup.add(InlineKeyboardButton('Статус оплаты', callback_data=str(f'upd_ls pay {lesson_id}')))
+
+        self.markup.add(InlineKeyboardButton('Вернуться к списку', callback_data='return_to_upd_ls_list'))
         return self.markup

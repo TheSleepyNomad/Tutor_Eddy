@@ -16,7 +16,7 @@ def _convert_in_class(query_result: List[str]) -> List[LessonRecord]:
                 student_name=f'{item[7]} {item[8]}',
                 student_phone=item[9],
                 lesson_name=item[6],
-                lesson_date=item[3] if item[3] else 'Пробное занятие',
+                lesson_date=item[3].date() if item[3] else 'Пробное занятие',
                 is_payment='Да' if item[4] else 'Нет',
                 is_test_lesson=item[5],
             )

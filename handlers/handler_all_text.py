@@ -48,24 +48,22 @@ class HandlerAllText(Handler):
                               reply_markup=self.keybords.guest_lesson_menu())
         self.keybords.remove_menu()
 
-
     def pressed_back_btn(self, message: Message) -> None:
         """
         handle return back btn
         """
         user_role = self.BD.check_user_role(message.from_user.id)
         if user_role == 'admin':
-             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                              reply_markup=self.keybords.admin_start_menu())
+            self.bot.send_message(message.chat.id, "Вы вернулись назад",
+                                  reply_markup=self.keybords.admin_start_menu())
 
         if user_role == 'student':
-             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                              reply_markup=self.keybords.students_start_menu())
+            self.bot.send_message(message.chat.id, "Вы вернулись назад",
+                                  reply_markup=self.keybords.students_start_menu())
 
         if user_role == 'guest':
-             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                              reply_markup=self.keybords.guest_start_menu())
-
+            self.bot.send_message(message.chat.id, "Вы вернулись назад",
+                                  reply_markup=self.keybords.guest_start_menu())
 
     def pressed_rus_lang_btn(self, message: Message) -> None:
         """
@@ -110,8 +108,15 @@ class HandlerAllText(Handler):
         self.bot.send_message(message.chat.id, 'Ваши текущие настройки',
                               reply_markup=self.keybords.settings_menu())
 
+    def change_lesson(self, message: Message) -> None:
+        """
+        """
+        list_of_records = self.BD.get_all_lesson_records()
+        self.bot.send_message(message.chat.id, 'Какую запись обновить?',
+                            reply_markup=self.keybords.update_lessons_menu(list_of_records))
+
     def handle(self) -> None:
-        
+
         @self.bot.message_handler(func=lambda message: True)
         def handle(message: Message) -> None:
             # ---- menu btns -----
@@ -124,6 +129,9 @@ class HandlerAllText(Handler):
 
             if message.text == KEYBOARD['ADD_LESSON']:
                 self.add_new_lesson(message)
+
+            if message.text == KEYBOARD['CHANGE_LESSON']:
+                self.change_lesson(message)
 
             if message.text == KEYBOARD['STUDENTS']:
                 pass
