@@ -35,130 +35,20 @@ class DBManager(metaclass=Singleton):
         if not path.isfile(DATABASE):
             Base.metadata.create_all(self.engine)
 
-    def close(self):
-        """
-        Close session
-        """
-        self._session.close()
+    
     # Lesson table
-    # Lesson_type table
-    # Student table
-    # Other functions
-    # ! Important
-    # Todo del one of them. check_user_on_exist_by_user_id or get_user_by_user_id
-    # Todo and rename
-    # Todo check links on functions and repair them all
-    def check_user_on_exist_by_user_id(self, user_id: int) -> bool:
-        try:
-            result = self._session.query(
-                Students).filter_by(user_id=user_id).one()
-            self.close()
-            return result
-
-        except NoResultFound:
-            self.close()
-            return False
-
-    def check_user_role(self, user_id: int) -> str:
-        try:
-            user = self.check_user_on_exist_by_user_id(user_id)
-            if user:
-                if str(user.user_id) == ADMIN_ID:
-                    return 'admin'
-
-                if user.guest_is:
-                    return 'guest'
-
-                if not user.guest_is:
-                    return 'student'
-            else:
-                return False
-
-        except NoResultFound:
-            self.close()
-            return False
-
-    def _add_new_student(self, username: str, user_id: str, first_name: str, last_name: str, phone=None, guest_is=True) -> None:
-        student = Students(username=username,
-                           user_id=user_id,
-                           first_name=first_name,
-                           last_name=last_name,
-                           phone=phone,
-                           guest_is=guest_is)
-
-        self._session.add(student)
+    def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool, date=datetime.now()) -> None:
+        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id, date=date,
+                         like_guest=guest)
+        self._session.add(lesson)
         self._session.commit()
         self.close()
-
-    def update_student_profile(self, user_id: int, name: str, value) -> None:
-        self._session.query(Students).filter_by(
-            user_id=user_id).update({name: value})
-        self._session.commit()
-        self.close()
-
+    
     def update_lesson(self, lesson_id: int, name: str, value) -> None:
         self._session.query(Lessons).filter_by(
             id=lesson_id).update({name: value})
         self._session.commit()
         self.close()
-
-    def get_user_by_user_id(self, user_id: int):
-        result = self._session.query(
-            Students).filter_by(user_id=user_id).one()
-        self.close()
-        return result
-
-    def get_guest_lesson_by_user_id(self, user_id: int):
-        try:
-            result = self._session.query(
-                Lessons).filter_by(students_id=user_id, like_guest=True).one()
-        except NoResultFound:
-            self.close()
-            return False
-        self.close()
-        return result
-
-    def get_lesson_type_by_id(self, lesson_type_id: int):
-        try:
-            result = self._session.query(
-                LessonsType).filter_by(id=lesson_type_id).one()
-        except NoResultFound:
-            self.close()
-            return False
-        except MultipleResultsFound:
-            self.close()
-            return False
-
-        self.close()
-        return result
-
-    def get_all_lesson_types(self):
-        result = self._session.query(LessonsType).all()
-        self.close()
-        return result
-
-    def get_one_lesson_records(self, lesson_id: int):
-        result = self._session.query(
-            Lessons.id,
-            Lessons.students_id,
-            Lessons.lessons_type_id,
-            Lessons.date,
-            Lessons.payment,
-            Lessons.like_guest,
-            LessonsType.type_name,
-            Students.first_name,
-            Students.last_name,
-            Students.phone,).filter(
-                Lessons.lessons_type_id == LessonsType.id
-        ).filter(
-                Lessons.students_id == Students.id
-        ).filter_by(id=lesson_id).all()
-
-        self.close()
-
-        lesson_record = _convert_in_class(result)
-        print(lesson_record)
-        return lesson_record
 
     def get_all_lesson_records(self):
         result = self._session.query(
@@ -183,10 +73,69 @@ class DBManager(metaclass=Singleton):
 
         return lesson_records
 
-    def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool, date=datetime.now()) -> None:
-        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id, date=date,
-                         like_guest=guest)
-        self._session.add(lesson)
+    def get_one_lesson_records(self, lesson_id: int):
+        result = self._session.query(
+            Lessons.id,
+            Lessons.students_id,
+            Lessons.lessons_type_id,
+            Lessons.date,
+            Lessons.payment,
+            Lessons.like_guest,
+            LessonsType.type_name,
+            Students.first_name,
+            Students.last_name,
+            Students.phone,).filter(
+                Lessons.lessons_type_id == LessonsType.id
+        ).filter(
+                Lessons.students_id == Students.id
+        ).filter_by(id=lesson_id).all()
+
+        self.close()
+
+        lesson_record = _convert_in_class(result)
+        print(lesson_record)
+        return lesson_record
+
+    def get_guest_lesson_by_user_id(self, user_id: int):
+        try:
+            result = self._session.query(
+                Lessons).filter_by(students_id=user_id, like_guest=True).one()
+        except NoResultFound:
+            self.close()
+            return False
+        self.close()
+        return result
+    
+    # Lesson_type table
+    def get_all_lesson_types(self):
+        result = self._session.query(LessonsType).all()
+        self.close()
+        return result
+    
+    def get_lesson_type_by_id(self, lesson_type_id: int):
+        try:
+            result = self._session.query(
+                LessonsType).filter_by(id=lesson_type_id).one()
+        except NoResultFound:
+            self.close()
+            return False
+        except MultipleResultsFound:
+            self.close()
+            return False
+
+        self.close()
+        return result
+
+    # Student table
+    def _add_new_student(self, username: str, user_id: str, first_name: str, last_name: str, phone=None, guest_is=True) -> None:
+        student = Students(username=username,
+                           user_id=user_id,
+                           first_name=first_name,
+                           last_name=last_name,
+                           phone=phone,
+                           guest_is=guest_is)
+
+        self._session.add(student)
         self._session.commit()
         self.close()
 
@@ -195,3 +144,83 @@ class DBManager(metaclass=Singleton):
             Students).all()
         self.close()
         return students
+
+    def get_user_by_user_id(self, user_id: int):
+        result = self._session.query(
+            Students).filter_by(user_id=user_id).one()
+        self.close()
+        return result
+
+    def update_student_profile(self, user_id: int, name: str, value) -> None:
+        self._session.query(Students).filter_by(
+            user_id=user_id).update({name: value})
+        self._session.commit()
+        self.close()
+    
+    def check_user_on_exist_by_user_id(self, user_id: int) -> bool:
+        try:
+            result = self._session.query(
+                Students).filter_by(user_id=user_id).one()
+            self.close()
+            return result
+
+        except NoResultFound:
+            self.close()
+            return False
+    
+
+    # Other functions
+    def close(self):
+        """
+        Close session
+        """
+        self._session.close()
+
+    def check_user_role(self, user_id: int) -> str:
+        try:
+            user = self.check_user_on_exist_by_user_id(user_id)
+            if user:
+                if str(user.user_id) == ADMIN_ID:
+                    return 'admin'
+
+                if user.guest_is:
+                    return 'guest'
+
+                if not user.guest_is:
+                    return 'student'
+            else:
+                return False
+
+        except NoResultFound:
+            self.close()
+            return False
+
+    # ! Important
+    # Todo del one of them. check_user_on_exist_by_user_id or get_user_by_user_id
+    # Todo and rename
+    # Todo check links on functions and repair them all
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
