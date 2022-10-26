@@ -82,7 +82,7 @@ class HandlerInlineQuery(Handler):
 
     # Todo rename this function
     def show_extended_info(self, call: CallbackQuery) -> None:
-        lesson_record = self.BD.get_one_lesson_records(
+        lesson_record = self.BD.select_one_lesson(
             int(call.data[17:-1].strip()))
         print(lesson_record)
         self.bot.answer_callback_query(call.id, MsgTemplates.ABOUT_LESSON_MSG.format(

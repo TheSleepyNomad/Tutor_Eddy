@@ -73,7 +73,7 @@ class DBManager(metaclass=Singleton):
 
         return lesson_records
 
-    def get_one_lesson_records(self, lesson_id: int):
+    def select_one_lesson(self, lesson_id: int):
         result = self._session.query(
             Lessons.id,
             Lessons.students_id,
@@ -93,7 +93,7 @@ class DBManager(metaclass=Singleton):
         self.close()
 
         lesson_record = _convert_in_class(result)
-        print(lesson_record)
+        print(type(lesson_record) + '001001')
         return lesson_record
 
     def get_guest_lesson_by_user_id(self, user_id: int):
