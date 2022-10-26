@@ -86,7 +86,7 @@ class HandlerAllText(Handler):
                               reply_markup=self.keybords.get_user_phone())
 
     def show_all_lessons(self, message: Message) -> None:
-        list_of_records = self.BD.get_all_lesson_records()
+        list_of_records = self.BD.select_all_lessons()
         self.bot.send_message(message.chat.id,
                               f'Все уроки',
                               reply_markup=self.keybords.lesson_records(list_of_records))
@@ -111,7 +111,7 @@ class HandlerAllText(Handler):
     def change_lesson(self, message: Message) -> None:
         """
         """
-        list_of_records = self.BD.get_all_lesson_records()
+        list_of_records = self.BD.select_all_lessons()
         self.bot.send_message(message.chat.id, 'Какую запись обновить?',
                             reply_markup=self.keybords.update_lessons_menu(list_of_records))
 

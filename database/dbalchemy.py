@@ -50,7 +50,7 @@ class DBManager(metaclass=Singleton):
         self._session.commit()
         self.close()
 
-    def get_all_lesson_records(self):
+    def select_all_lessons(self):
         result = self._session.query(
             Lessons.id,
             Lessons.students_id,

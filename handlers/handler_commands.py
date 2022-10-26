@@ -15,7 +15,7 @@ class HandlerCommands(Handler):
         """
         Handle the /start command
         """
-        test = self.BD.get_all_lesson_records()
+        test = self.BD.select_all_lessons()
         # Check user in DB
         user_role = self.BD.check_user_role(message.from_user.id)
 
