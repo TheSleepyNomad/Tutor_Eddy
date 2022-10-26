@@ -148,18 +148,6 @@ class DBManager(metaclass=Singleton):
         return students
 
     def select_one_student_by_id(self, user_id: int):
-        result = self._session.query(
-            Students).filter_by(user_id=user_id).one()
-        self.close()
-        return result
-
-    def update_student(self, user_id: int, name: str, value) -> None:
-        self._session.query(Students).filter_by(
-            user_id=user_id).update({name: value})
-        self._session.commit()
-        self.close()
-    
-    def check_user_on_exist_by_user_id(self, user_id: int) -> bool:
         try:
             result = self._session.query(
                 Students).filter_by(user_id=user_id).one()
@@ -169,8 +157,13 @@ class DBManager(metaclass=Singleton):
         except NoResultFound:
             self.close()
             return False
-    
 
+    def update_student(self, user_id: int, name: str, value) -> None:
+        self._session.query(Students).filter_by(
+            user_id=user_id).update({name: value})
+        self._session.commit()
+        self.close()
+    
     # Other functions
     def close(self):
         """
@@ -180,7 +173,7 @@ class DBManager(metaclass=Singleton):
 
     def check_user_role(self, user_id: int) -> str:
         try:
-            user = self.check_user_on_exist_by_user_id(user_id)
+            user = self.select_one_student_by_id(user_id)
             if user:
                 if str(user.user_id) == ADMIN_ID:
                     return 'admin'
