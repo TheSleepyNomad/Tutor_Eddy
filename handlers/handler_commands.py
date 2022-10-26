@@ -15,14 +15,14 @@ class HandlerCommands(Handler):
         """
         Handle the /start command
         """
-        test = self.BD.select_all_lessons()
         # Check user in DB
         user_role = self.BD.check_user_role(message.from_user.id)
 
         # check user role /admin/student/guest
+        # if user is admin
         if user_role == 'admin':
             self.bot.send_message(message.chat.id, 'Админ вернулся!',
-            reply_markup=self.keybords.admin_start_menu())
+                                  reply_markup=self.keybords.admin_start_menu())
 
         else:
             # if user already in database
@@ -31,22 +31,23 @@ class HandlerCommands(Handler):
                 # if user is student
                 if user_role == 'student':
                     self.bot.send_message(message.chat.id,
-                                        f'{MsgTemplates.STUDENTS_START_MSG}',
-                                        reply_markup=self.keybords.students_start_menu())
+                                          f'{MsgTemplates.STUDENTS_START_MSG}',
+                                          reply_markup=self.keybords.students_start_menu())
                 # if user still guest
                 else:
                     self.bot.send_message(message.chat.id,
-                                        f'{MsgTemplates.GUEST_START_MSG}',
-                                        reply_markup=self.keybords.guest_start_menu())
+                                          f'{MsgTemplates.GUEST_START_MSG}',
+                                          reply_markup=self.keybords.guest_start_menu())
             # for new visitors
             else:
                 # send welcome msg
-                self.bot.send_message(message.chat.id, f'{MsgTemplates.START_MSG}')
+                self.bot.send_message(
+                    message.chat.id, f'{MsgTemplates.START_MSG}')
 
                 # send msg for choosing language
                 self.bot.send_message(message.chat.id,
-                                    f'{MsgTemplates.CHOOSE_LANG_MSG}',
-                                    reply_markup=self.keybords.choose_language_menu())
+                                      f'{MsgTemplates.CHOOSE_LANG_MSG}',
+                                      reply_markup=self.keybords.choose_language_menu())
 
     def pressed_help_btn(self, message: Message) -> None:
         """

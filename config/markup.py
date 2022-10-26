@@ -75,8 +75,7 @@ class Keyboards:
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
             self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
-                                                                    # Todo rename 'key'
-                                                 callback_data=str({'lesson_record': itm.lesson_id})))
+                                                 callback_data=str({'lesson_info': itm.lesson_id})))
 
         return self.markup
 
