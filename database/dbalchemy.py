@@ -153,7 +153,7 @@ class DBManager(metaclass=Singleton):
         self.close()
         return result
 
-    def update_student_profile(self, user_id: int, name: str, value) -> None:
+    def update_student(self, user_id: int, name: str, value) -> None:
         self._session.query(Students).filter_by(
             user_id=user_id).update({name: value})
         self._session.commit()
