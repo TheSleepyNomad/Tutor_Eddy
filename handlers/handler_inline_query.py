@@ -32,7 +32,7 @@ class HandlerInlineQuery(Handler):
         """
         write user on test lesson
         """
-        guest = self.BD.get_user_by_user_id(call.from_user.id)
+        guest = self.BD.select_one_student_by_id(call.from_user.id)
         last_msg = call.message
         self.BD._add_new_lesson(guest.id, call.data, True)
         self.send_new_student_for_admin(guest)
@@ -53,7 +53,7 @@ class HandlerInlineQuery(Handler):
         """
         self.bot.answer_callback_query(call.id)
 
-        user = self.BD.get_user_by_user_id(call.from_user.id)
+        user = self.BD.select_one_student_by_id(call.from_user.id)
         lesson = self.BD.select_one_lesson_filter_by_guest(user.id)
 
         if call.data == 'Математика':

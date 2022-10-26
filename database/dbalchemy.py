@@ -144,9 +144,10 @@ class DBManager(metaclass=Singleton):
         students = self._session.query(
             Students).all()
         self.close()
+        print(type(students))
         return students
 
-    def get_user_by_user_id(self, user_id: int):
+    def select_one_student_by_id(self, user_id: int):
         result = self._session.query(
             Students).filter_by(user_id=user_id).one()
         self.close()
