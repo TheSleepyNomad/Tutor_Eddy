@@ -1,3 +1,4 @@
+from typing import Union
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import NoResultFound, MultipleResultsFound
@@ -8,7 +9,7 @@ from models.lessons import Lessons
 from config.settings import DATABASE, ADMIN_ID
 from os import path
 from utils.utils import _convert_in_class
-from datetime import datetime
+from datetime import date, datetime
 
 
 class Singleton(type):
@@ -35,91 +36,108 @@ class DBManager(metaclass=Singleton):
         if not path.isfile(DATABASE):
             Base.metadata.create_all(self.engine)
 
-    
     # Lesson table
     def _add_new_lesson(self, student_id: int, lessons_type_id: int, guest: bool, date=datetime.now()) -> None:
-        lesson = Lessons(students_id=student_id, lessons_type_id=lessons_type_id, date=date,
+        """
+        Creates a request to create a new record in the Lesson table
+        """
+        lesson = Lessons(students_id=student_id,
+                         lessons_type_id=lessons_type_id,
+                         date=date,
                          like_guest=guest)
         self._session.add(lesson)
         self._session.commit()
         self.close()
-    
-    def update_lesson(self, lesson_id: int, name: str, value) -> None:
-        self._session.query(Lessons).filter_by(
-            id=lesson_id).update({name: value})
+
+    def update_lesson(self, lesson_id: int, name: str, value: Union[int, bool, datetime]) -> None:
+        """
+        Creates a request to update a record in the Lesson table
+        """
+        self._session.query(Lessons).filter_by(id=lesson_id)\
+            .update({name: value})
         self._session.commit()
         self.close()
 
     def select_all_lessons(self):
-        result = self._session.query(
-            Lessons.id,
-            Lessons.students_id,
-            Lessons.lessons_type_id,
-            Lessons.date,
-            Lessons.payment,
-            Lessons.like_guest,
-            LessonsType.type_name,
-            Students.first_name,
-            Students.last_name,
-            Students.phone,).filter(
-                Lessons.lessons_type_id == LessonsType.id
+        """
+        Creates a request to select all records in the Lesson table
+        """
+        result = self._session.query(Lessons.id,
+                                     Lessons.students_id,
+                                     Lessons.lessons_type_id,
+                                     Lessons.date,
+                                     Lessons.payment,
+                                     Lessons.like_guest,
+                                     LessonsType.type_name,
+                                     Students.first_name,
+                                     Students.last_name,
+                                     Students.phone,).filter(
+            Lessons.lessons_type_id == LessonsType.id
         ).filter(
-                Lessons.students_id == Students.id
+            Lessons.students_id == Students.id
         ).all()
 
         self.close()
-
         lesson_records = _convert_in_class(result)
-
         return lesson_records
 
-    def select_one_lesson(self, lesson_id: int):
-        result = self._session.query(
-            Lessons.id,
-            Lessons.students_id,
-            Lessons.lessons_type_id,
-            Lessons.date,
-            Lessons.payment,
-            Lessons.like_guest,
-            LessonsType.type_name,
-            Students.first_name,
-            Students.last_name,
-            Students.phone,).filter(
-                Lessons.lessons_type_id == LessonsType.id
+    def select_one_lesson(self, lesson_id: int) -> list:
+        """
+        Creates a request to select one record from the Lesson table
+        """
+        result = self._session.query(Lessons.id,
+                                     Lessons.students_id,
+                                     Lessons.lessons_type_id,
+                                     Lessons.date,
+                                     Lessons.payment,
+                                     Lessons.like_guest,
+                                     LessonsType.type_name,
+                                     Students.first_name,
+                                     Students.last_name,
+                                     Students.phone,).filter(
+            Lessons.lessons_type_id == LessonsType.id
         ).filter(
-                Lessons.students_id == Students.id
+            Lessons.students_id == Students.id
         ).filter_by(id=lesson_id).all()
 
         self.close()
 
         lesson_record = _convert_in_class(result)
-        print(type(lesson_record) + '001001')
         return lesson_record
 
-    def select_one_lesson_filter_by_guest(self, user_id: int):
+    def select_one_lesson_filter_by_guest(self, user_id: int) -> Union[list, bool]:
+        """
+        Creates a request to select one record selected by student_id and like_guest value
+        """
         try:
-            result = self._session.query(
-                Lessons).filter_by(students_id=user_id, like_guest=True).one()
+            result = self._session.query(Lessons).filter_by(students_id=user_id,
+                                                            like_guest=True).one()
         except NoResultFound:
             self.close()
             return False
         self.close()
         return result
-    
+
     # Lesson_type table
-    def select_all_lesson_types(self):
+    def select_all_lesson_types(self) -> list:
+        """
+        Creates a request to select all records in the Lesson_type table
+        """
         result = self._session.query(LessonsType).all()
         self.close()
-        print(type(result))
         return result
-    
+
     def select_one_lesson_type(self, lesson_type_id: int):
+        """
+        Creates a request to select one record selected by lesson_type_id
+        """
         try:
-            result = self._session.query(
-                LessonsType).filter_by(id=lesson_type_id).one()
+            result = self._session.query(LessonsType).filter_by(id=lesson_type_id)\
+                .one()
         except NoResultFound:
             self.close()
             return False
+
         except MultipleResultsFound:
             self.close()
             return False
@@ -129,6 +147,9 @@ class DBManager(metaclass=Singleton):
 
     # Student table
     def _add_new_student(self, username: str, user_id: str, first_name: str, last_name: str, phone=None, guest_is=True) -> None:
+        """
+        Creates a request to create a new record in the Student table
+        """
         student = Students(username=username,
                            user_id=user_id,
                            first_name=first_name,
@@ -141,16 +162,20 @@ class DBManager(metaclass=Singleton):
         self.close()
 
     def select_all_students(self):
-        students = self._session.query(
-            Students).all()
+        """
+        Creates a request to select all records in the Student table
+        """
+        students = self._session.query(Students).all()
         self.close()
-        print(type(students))
         return students
 
     def select_one_student_by_id(self, user_id: int):
+        """
+        Creates a request to select one record selected by user_id
+        """
         try:
-            result = self._session.query(
-                Students).filter_by(user_id=user_id).one()
+            result = self._session.query(Students).filter_by(user_id=user_id)\
+                                                                        .one()
             self.close()
             return result
 
@@ -159,11 +184,14 @@ class DBManager(metaclass=Singleton):
             return False
 
     def update_student(self, user_id: int, name: str, value) -> None:
-        self._session.query(Students).filter_by(
-            user_id=user_id).update({name: value})
+        """
+        Creates a request to update a record in the Student table
+        """
+        self._session.query(Students).filter_by(user_id=user_id)\
+                                                    .update({name: value})
         self._session.commit()
         self.close()
-    
+
     # Other functions
     def close(self):
         """
@@ -171,7 +199,10 @@ class DBManager(metaclass=Singleton):
         """
         self._session.close()
 
-    def check_user_role(self, user_id: int) -> str:
+    def check_user_role(self, user_id: int) -> Union[str, bool]:
+        """
+        Check user role. when user press /start
+        """
         try:
             user = self.select_one_student_by_id(user_id)
             if user:
@@ -189,33 +220,3 @@ class DBManager(metaclass=Singleton):
         except NoResultFound:
             self.close()
             return False
-
-    # ! Important
-    # Todo del one of them. check_user_on_exist_by_user_id or get_user_by_user_id
-    # Todo and rename
-    # Todo check links on functions and repair them all
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
