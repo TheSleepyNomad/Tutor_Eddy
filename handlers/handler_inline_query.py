@@ -19,7 +19,7 @@ class HandlerInlineQuery(Handler):
         send notification about new student for admin
         """
         student_lesson = self.BD.select_one_lesson_filter_by_guest(user.id)
-        lesson_type = self.BD.get_lesson_type_by_id(
+        lesson_type = self.BD.select_one_lesson_type(
             student_lesson.lessons_type_id)
         self.bot.send_message(ADMIN_ID,
                               f'{user.first_name} {user.last_name}, '
@@ -197,7 +197,7 @@ class HandlerInlineQuery(Handler):
 
                 else:
                     lesson_id = findall('\d+', data)
-                    lesson_name = self.BD.get_lesson_type_by_id(
+                    lesson_name = self.BD.select_one_lesson_type(
                         int(lesson_id[0]))
                     self.add_lesson_select_student(call, lesson_name)
                     # print(call.id)

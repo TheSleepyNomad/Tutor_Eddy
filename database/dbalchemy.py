@@ -113,7 +113,7 @@ class DBManager(metaclass=Singleton):
         print(type(result))
         return result
     
-    def get_lesson_type_by_id(self, lesson_type_id: int):
+    def select_one_lesson_type(self, lesson_type_id: int):
         try:
             result = self._session.query(
                 LessonsType).filter_by(id=lesson_type_id).one()
