@@ -140,7 +140,7 @@ class DBManager(metaclass=Singleton):
         self._session.commit()
         self.close()
 
-    def get_all_students(self):
+    def select_all_students(self):
         students = self._session.query(
             Students).all()
         self.close()

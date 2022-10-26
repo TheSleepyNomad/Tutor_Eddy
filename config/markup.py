@@ -155,7 +155,7 @@ class Keyboards:
 
     def add_lesson_student_inline_btn(self, lesson_id):
         self.markup = InlineKeyboardMarkup(row_width=1)
-        for itm in self.BD.get_all_students():
+        for itm in self.BD.select_all_students():
             self.markup.add(InlineKeyboardButton(str(f'{itm.first_name}'),
                                                  callback_data=str({'add_lsn': itm.id, 'lsn_id': lesson_id})))
 
@@ -193,7 +193,7 @@ class Keyboards:
 
     def upd_student_btn(self, lesson_id):
         self.markup = InlineKeyboardMarkup(row_width=1)
-        students = self.BD.get_all_students()
+        students = self.BD.select_all_students()
         for student in students:
             self.markup.add(InlineKeyboardButton(str(f'{student}'),
                                                  callback_data=f'upd_ls user value {lesson_id} {student.id}'))
