@@ -96,7 +96,7 @@ class DBManager(metaclass=Singleton):
         print(type(lesson_record) + '001001')
         return lesson_record
 
-    def get_guest_lesson_by_user_id(self, user_id: int):
+    def select_one_lesson_filter_by_guest(self, user_id: int):
         try:
             result = self._session.query(
                 Lessons).filter_by(students_id=user_id, like_guest=True).one()

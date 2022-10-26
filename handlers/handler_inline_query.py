@@ -18,7 +18,7 @@ class HandlerInlineQuery(Handler):
         """
         send notification about new student for admin
         """
-        student_lesson = self.BD.get_guest_lesson_by_user_id(user.id)
+        student_lesson = self.BD.select_one_lesson_filter_by_guest(user.id)
         lesson_type = self.BD.get_lesson_type_by_id(
             student_lesson.lessons_type_id)
         self.bot.send_message(ADMIN_ID,
@@ -54,7 +54,7 @@ class HandlerInlineQuery(Handler):
         self.bot.answer_callback_query(call.id)
 
         user = self.BD.get_user_by_user_id(call.from_user.id)
-        lesson = self.BD.get_guest_lesson_by_user_id(user.id)
+        lesson = self.BD.select_one_lesson_filter_by_guest(user.id)
 
         if call.data == 'Математика':
             if lesson:
