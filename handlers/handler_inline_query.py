@@ -27,7 +27,7 @@ class HandlerInlineQuery(Handler):
                               f'{user.first_name} {user.last_name}, '
                               f'хочет прийти на пробное занятие по {lesson_type}. '
                               f'Вы можете связаться с ним по телефону {user.phone}',
-                              reply_markup=self.keybords.guest_start_menu())
+                              reply_markup=self.keybords.set_guest_menu())
 
     # Todo raname this function
     def record_on_test_lesson(self, call: CallbackQuery) -> CallbackQuery:
@@ -101,12 +101,12 @@ class HandlerInlineQuery(Handler):
     def select_student_for_new_lesson(self, call, lesson_name):
         self.bot.answer_callback_query(call.id)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Кого записываем на {lesson_name.type_name}', message_id=call.message.id, reply_markup=self.keybords.add_lesson_student_inline_btn(lesson_name.id))
+            chat_id=call.message.chat.id, text=f'Кого записываем на {lesson_name.type_name}', message_id=call.message.id, reply_markup=self.keybords.set_list_of_students_for_add_lesson(lesson_name.id))
 
     def select_date_for_new_lesson(self, call, lesson_id, student_id):
         self.bot.answer_callback_query(call.id)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'На какое число записать?', message_id=call.message.id, reply_markup=self.keybords.add_lesson_student_date_inline_btn(lesson_id, student_id))
+            chat_id=call.message.chat.id, text=f'На какое число записать?', message_id=call.message.id, reply_markup=self.keybords.set_list_of_dates_for_add_leeson(lesson_id, student_id))
 
     def create_new_lesson(self, call, lesson_id, student_id, date):
         self.bot.answer_callback_query(call.id)
@@ -118,31 +118,31 @@ class HandlerInlineQuery(Handler):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Что вы хотите изменить?', message_id=call.message.id, reply_markup=self.keybords.upd_btns(lesson_id))
+            chat_id=call.message.chat.id, text=f'Что вы хотите изменить?', message_id=call.message.id, reply_markup=self.keybords.set_btns_for_upd_lesson(lesson_id))
 
     def select_student_for_lesson_upd(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.upd_student_btn(lesson_id))
+            chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.set_list_of_lesson_for_upd_lesson(lesson_id))
 
     def select_lesson_type_for_upd_lesson(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Изменить предмет', message_id=call.message.id, reply_markup=self.keybords.upd_ls_type_btn(lesson_id))
+            chat_id=call.message.chat.id, text=f'Изменить предмет', message_id=call.message.id, reply_markup=self.keybords.set_list_of_lesson_type_for_upd_lesson(lesson_id))
 
     def select_date_for_upd_lesson(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'На какую дату перенести', message_id=call.message.id, reply_markup=self.keybords.upd_date_btn(lesson_id))
+            chat_id=call.message.chat.id, text=f'На какую дату перенести', message_id=call.message.id, reply_markup=self.keybords.set_list_of_date_for_upd_lesson(lesson_id))
 
     def select_pay_for_upd_lesson(self, call):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Оплата была?', message_id=call.message.id, reply_markup=self.keybords.upd_payment_btn(lesson_id))
+            chat_id=call.message.chat.id, text=f'Оплата была?', message_id=call.message.id, reply_markup=self.keybords.set_list_of_pay_btns_for_upd_lesson(lesson_id))
 
     # Todo think about refactorin/ find how optimizate
     def upd_selected_lesson(self, call, student_id=None, lesson_type_id=None, date=None, payment=None):

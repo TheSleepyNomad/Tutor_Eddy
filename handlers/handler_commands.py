@@ -22,7 +22,7 @@ class HandlerCommands(Handler):
         # if user is admin
         if user_role == 'admin':
             self.bot.send_message(message.chat.id, 'Админ вернулся!',
-                                  reply_markup=self.keybords.admin_start_menu())
+                                  reply_markup=self.keybords.set_admin_menu())
 
         else:
             # if user already in database
@@ -32,12 +32,12 @@ class HandlerCommands(Handler):
                 if user_role == 'student':
                     self.bot.send_message(message.chat.id,
                                           f'{MsgTemplates.STUDENTS_START_MSG}',
-                                          reply_markup=self.keybords.students_start_menu())
+                                          reply_markup=self.keybords.set_students_menu())
                 # if user still guest
                 else:
                     self.bot.send_message(message.chat.id,
                                           f'{MsgTemplates.GUEST_START_MSG}',
-                                          reply_markup=self.keybords.guest_start_menu())
+                                          reply_markup=self.keybords.set_guest_menu())
             # for new visitors
             else:
                 # send welcome msg
@@ -47,7 +47,7 @@ class HandlerCommands(Handler):
                 # send msg for choosing language
                 self.bot.send_message(message.chat.id,
                                       f'{MsgTemplates.CHOOSE_LANG_MSG}',
-                                      reply_markup=self.keybords.choose_language_menu())
+                                      reply_markup=self.keybords.language_selection_menu())
 
     def pressed_help_btn(self, message: Message) -> None:
         """
