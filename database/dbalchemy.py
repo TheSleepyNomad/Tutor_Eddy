@@ -107,9 +107,10 @@ class DBManager(metaclass=Singleton):
         return result
     
     # Lesson_type table
-    def get_all_lesson_types(self):
+    def select_all_lesson_types(self):
         result = self._session.query(LessonsType).all()
         self.close()
+        print(type(result))
         return result
     
     def get_lesson_type_by_id(self, lesson_type_id: int):

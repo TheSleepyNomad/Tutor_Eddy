@@ -65,7 +65,7 @@ class Keyboards:
         set inline menu with lessons name
         """
         self.markup = InlineKeyboardMarkup(row_width=1)
-        for itm in self.BD.get_all_lesson_types():
+        for itm in self.BD.select_all_lesson_types():
             self.markup.add(self.set_lesson_inline_btn(itm))
 
         return self.markup
@@ -147,7 +147,7 @@ class Keyboards:
         """
         """
         self.markup = InlineKeyboardMarkup(row_width=1)
-        for itm in self.BD.get_all_lesson_types():
+        for itm in self.BD.select_all_lesson_types():
             self.markup.add(InlineKeyboardButton(str(f'{itm.type_name}'),
                                                  callback_data=str({'add_lsn': itm.id})))
 
@@ -201,7 +201,7 @@ class Keyboards:
 
     def upd_ls_type_btn(self, lesson_id):
         self.markup = InlineKeyboardMarkup(row_width=1)
-        lesson_types = self.BD.get_all_lesson_types()
+        lesson_types = self.BD.select_all_lesson_types()
         for lesson_type in lesson_types:
             self.markup.add(InlineKeyboardButton(str(f'{lesson_type}'),
                                                  callback_data=f'upd_ls ls_type value {lesson_id} {lesson_type.id}'))
@@ -209,7 +209,7 @@ class Keyboards:
 
     def upd_ls_type_btn(self, lesson_id):
         self.markup = InlineKeyboardMarkup(row_width=1)
-        lesson_types = self.BD.get_all_lesson_types()
+        lesson_types = self.BD.select_all_lesson_types()
         for lesson_type in lesson_types:
             self.markup.add(InlineKeyboardButton(str(f'{lesson_type}'),
                                                  callback_data=f'upd_ls ls_type value {lesson_id} {lesson_type.id}'))
