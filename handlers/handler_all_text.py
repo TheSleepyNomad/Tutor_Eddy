@@ -45,7 +45,7 @@ class HandlerAllText(Handler):
         # else:
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                              reply_markup=self.keybords.guest_lesson_menu())
+                              reply_markup=self.keybords.set_guest_menu())
         self.keybords.remove_menu()
 
     def pressed_back_btn(self, message: Message) -> None:
@@ -55,15 +55,15 @@ class HandlerAllText(Handler):
         user_role = self.BD.check_user_role(message.from_user.id)
         if user_role == 'admin':
             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                                  reply_markup=self.keybords.admin_start_menu())
+                                  reply_markup=self.keybords.set_admin_menu())
 
         if user_role == 'student':
             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                                  reply_markup=self.keybords.students_start_menu())
+                                  reply_markup=self.keybords.set_students_menu())
 
         if user_role == 'guest':
             self.bot.send_message(message.chat.id, "Вы вернулись назад",
-                                  reply_markup=self.keybords.guest_start_menu())
+                                  reply_markup=self.keybords.set_guest_menu())
 
     def pressed_rus_lang_btn(self, message: Message) -> None:
         """
@@ -73,7 +73,7 @@ class HandlerAllText(Handler):
         # send msg and get user phone
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.SET_USR_SETTING}',
-                              reply_markup=self.keybords.get_user_phone())
+                              reply_markup=self.keybords.set_request_phone_menu())
 
     def pressed_eng_lang_btn(self, message: Message) -> None:
         """
@@ -83,23 +83,23 @@ class HandlerAllText(Handler):
         # send msg and get user phone
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.SET_USR_SETTING}',
-                              reply_markup=self.keybords.get_user_phone())
+                              reply_markup=self.keybords.set_request_phone_menu())
 
     def show_all_lessons(self, message: Message) -> None:
-        list_of_records = self.BD.get_all_lesson_records()
+        list_of_records = self.BD.select_all_lessons()
         self.bot.send_message(message.chat.id,
                               f'Все уроки',
-                              reply_markup=self.keybords.lesson_records(list_of_records))
+                              reply_markup=self.keybords.set_lessons_inline_menu(list_of_records))
 
     def show_admin_lessons_menu(self, message: Message) -> None:
         self.bot.send_message(message.chat.id,
                               f'Вы перешли в меню записей',
-                              reply_markup=self.keybords.admin_lesson_records_menu())
+                              reply_markup=self.keybords.set_admin_lesson_action_menu())
 
     def add_new_lesson(self, message: Message) -> None:
         self.bot.send_message(message.chat.id,
                               f'По какому предмету делаем запись?',
-                              reply_markup=self.keybords.add_lesson_inline_btn())
+                              reply_markup=self.keybords.set_list_of_lessons_for_add_lesson())
 
     def pressed_settings_btn(self, message: Message) -> None:
         """
@@ -111,9 +111,22 @@ class HandlerAllText(Handler):
     def change_lesson(self, message: Message) -> None:
         """
         """
-        list_of_records = self.BD.get_all_lesson_records()
+        list_of_records = self.BD.select_all_lessons()
         self.bot.send_message(message.chat.id, 'Какую запись обновить?',
-                            reply_markup=self.keybords.update_lessons_menu(list_of_records))
+                            reply_markup=self.keybords.set_list_of_lesson_for_upd_lesson(list_of_records))
+
+    def show_admin_students_menu(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Меню студентов',
+                            reply_markup=self.keybords.set_students_action_menu())
+
+    def pressed_new_student_btn(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Записи со студентами',
+                            reply_markup=self.keybords.set_guests_inline_menu())
+
+    def pressed_all_students_btn(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Все ваши студенты',
+                            reply_markup=self.keybords.set_all_student_inline_menu())
+
 
     def handle(self) -> None:
 
@@ -134,7 +147,13 @@ class HandlerAllText(Handler):
                 self.change_lesson(message)
 
             if message.text == KEYBOARD['STUDENTS']:
-                pass
+                self.show_admin_students_menu(message)
+            
+            if message.text == KEYBOARD['ALL_STUDENTS']:
+                self.pressed_all_students_btn(message)
+
+            if message.text == KEYBOARD['GUESTS']:
+                self.pressed_new_student_btn(message)
 
             # student keyboard btns
             if message.text == KEYBOARD['MY_LESSONS']:

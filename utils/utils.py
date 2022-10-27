@@ -1,7 +1,5 @@
-from typing import List, Tuple
-from config.settings import ADMIN_NAME
+from typing import List
 from utils.data_classes import LessonRecord
-from datetime import datetime
 
 
 def _convert_in_class(query_result: List[str]) -> List[LessonRecord]:

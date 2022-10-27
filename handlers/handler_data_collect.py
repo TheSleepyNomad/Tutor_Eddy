@@ -18,7 +18,7 @@ class HandlerDataCollect(Handler):
 
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.GUEST_START_MSG}',
-                              reply_markup=self.keybords.guest_start_menu())
+                              reply_markup=self.keybords.set_guest_menu())
 
     def handle(self) -> None:
         @self.bot.message_handler(content_types=['contact'])
