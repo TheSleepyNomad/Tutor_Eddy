@@ -22,20 +22,30 @@ ADMIN_ID = getenv('ADMIN_ID')
 # control btns
 KEYBOARD = {
     # for admin
-    'LESSONS': emojize(':book: Все записи'),
-    'ADD_STUDENT': emojize(':busts_in_silhouette: Новый ученик'),
+    'LESSONS': '\U0001F4D6'+'Записи',
+    'ALL_LESSONS': 'Все Записи',
+    'ADD_LESSON': 'Новая запись',
+    'CHANGE_LESSON': 'Изменить запись',
+    'STUDENTS': emojize(':busts_in_silhouette: Ученики'),
+    'ALL_STUDENTS': 'Все ученики',
+    'ADD_STUDENTS': 'Мои ученики',
+    'GUESTS': 'Новые ученики',
     # for students
-    'MY_LESSONS': emojize(':books: Мои занятия'),
-    'REQ_PHONE': emojize(':open_file_folder: Поделиться телефоном'),
+    'MY_LESSONS': emojize(':books:Мои занятия'),
+    'REQ_PHONE': '\U0001F4F2' + 'Поделиться телефоном',
     # for guest
-    'ABOUT_TUTOR': emojize(':speech_balloon: О Марии...'),
-    'TEST_LESSON': emojize(':pencil: Пробное занятие'),
+    'ABOUT_TUTOR': '\U0001F469\U0000200D\U0001F3EB' + 'О Марии...',
+    'TEST_LESSON': '\U0001F4C5' + 'Пробное занятие',
     # other
-    'HELP': emojize(':red_question_mark: Помощь'),
-    '<<': emojize('⏪'),
-    'SETTINGS': emojize('⚙️ Настройки'),
-    'ABOUT_APP': emojize(':speech_balloon: О программе'),
-    'MATH': emojize(':speech_balloon: Математика'),
-    'ENG': emojize(':speech_balloon: Английский язык'),
-    'SOCIAL': emojize(':speech_balloon: Обществознание'),
+    'HELP': emojize(':speech_balloon:Помощь'),
+    '<<': emojize('⏪ Назад'),
+    'SETTINGS': emojize('⚙️Настройки'),
+    'ABOUT_APP': emojize(':red_question_mark:О программе'),
+    'MATH': emojize(':triangular_ruler:Математика'),
+    'ENGLISH': emojize(':european_castle:Английский язык'),
+    'SOCIAL': emojize(':hammer:Обществознание'),
+    'RUS': '\U0001F1F7\U0001F1FA' + 'Русский',
+    'ENG': '\U0001F1EC\U0001F1E7' + 'English',
+    'LANGUAGE': emojize(':gb:Язык'),
+    'CHANGE_LNG': '\U0001F30D' + 'Сменить язык',
 }
