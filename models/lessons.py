@@ -16,8 +16,12 @@ class Lessons(Base):
     date = Column(DateTime)
     payment = Column(Boolean)
     like_guest = Column(Boolean)
-    lessons_type = relationship(LessonsType)
-    students = relationship(Students)
+    lessons_type = relationship(LessonsType,
+                                backref=backref('lessons_type',
+                                                uselist=True, cascade='delete, all'))
+    students = relationship(Students,
+                            backref=backref('students',
+                                            uselist=True, cascade='delete, all'))
 
     def __repr__(self):
         return f"{self.lessons_type_id} {self.students_id} {self.date}"

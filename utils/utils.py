@@ -4,7 +4,6 @@ from utils.data_classes import LessonRecord
 
 def _convert_in_class(query_result: List[str]) -> List[LessonRecord]:
     recors_list = []
-    print(query_result)
     for item in query_result:
         recors_list.append(
             LessonRecord(

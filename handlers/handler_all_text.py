@@ -45,7 +45,7 @@ class HandlerAllText(Handler):
         # else:
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                              reply_markup=self.keybords.set_guest_menu())
+                              reply_markup=self.keybords.set_lesson_sign_up_menu())
         self.keybords.remove_menu()
 
     def pressed_back_btn(self, message: Message) -> None:
@@ -127,6 +127,10 @@ class HandlerAllText(Handler):
         self.bot.send_message(message.chat.id, 'Все ваши студенты',
                             reply_markup=self.keybords.set_all_student_inline_menu())
 
+    def pressed_my_lesson_btn(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Ваши занятия',
+                            reply_markup=self.keybords.set_all_student_lessons_inline_menu(message.from_user.id))
+
 
     def handle(self) -> None:
 
@@ -157,7 +161,7 @@ class HandlerAllText(Handler):
 
             # student keyboard btns
             if message.text == KEYBOARD['MY_LESSONS']:
-                pass
+                self.pressed_my_lesson_btn(message)
 
             # guest keyboard btns
             if message.text == KEYBOARD['TEST_LESSON']:

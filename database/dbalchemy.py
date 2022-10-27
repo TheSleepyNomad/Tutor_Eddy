@@ -118,6 +118,34 @@ class DBManager(metaclass=Singleton):
         self.close()
         return result
 
+    def select_all_lesson_filter_by_student_id(self, user_id: int) -> Union[list, bool]:
+        """
+        Creates a request to select one record selected by student_id and like_guest value
+        """
+        try:
+            result = self._session.query(Lessons.id,
+                                         Lessons.students_id,
+                                         Lessons.lessons_type_id,
+                                         Lessons.date,
+                                         Lessons.payment,
+                                         Lessons.like_guest,
+                                         LessonsType.type_name,
+                                         Students.first_name,
+                                         Students.last_name,
+                                         Students.phone,).filter(
+                Lessons.lessons_type_id == LessonsType.id
+            ).filter(
+                Lessons.students_id == Students.id
+            ).filter_by(students_id=user_id).all()
+
+        except NoResultFound:
+            self.close()
+            return False
+        self.close()
+
+        lesson_record = _convert_in_class(result)
+        return lesson_record
+
     # Lesson_type table
     def select_all_lesson_types(self) -> list:
         """
@@ -165,7 +193,8 @@ class DBManager(metaclass=Singleton):
         """
         Creates a request to select all records in the Student table
         """
-        students = self._session.query(Students).filter_by(guest_is=False).all()
+        students = self._session.query(
+            Students).filter_by(guest_is=False).all()
         self.close()
         return students
 
@@ -182,8 +211,8 @@ class DBManager(metaclass=Singleton):
         Creates a request to select one record selected by user_id
         """
         try:
-            result = self._session.query(Students).filter_by(id=user_id)\
-                                                                        .one()
+            result = self._session.query(Students).filter_by(user_id=user_id)\
+                .one()
             self.close()
             return result
 
@@ -196,7 +225,7 @@ class DBManager(metaclass=Singleton):
         Creates a request to update a record in the Student table
         """
         self._session.query(Students).filter_by(id=user_id)\
-                                                    .update({name: value})
+            .update({name: value})
         self._session.commit()
         self.close()
 

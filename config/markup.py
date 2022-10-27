@@ -201,6 +201,15 @@ class Keyboards:
         self.markup.row(self.set_btn('HELP'), self.set_btn('SETTINGS'))
         return self.markup
 
+    def set_all_student_lessons_inline_menu(self, user_id: int):
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        user = self.BD.select_one_student_by_id(user_id)
+        lessons = self.BD.select_all_lesson_filter_by_student_id(user.id)
+        for lesson in lessons:
+            self.markup.add(InlineKeyboardButton(str(f'{lesson.lesson_date} {lesson.lesson_name}'),
+                                                 callback_data=f''))
+        return self.markup
+
     # Guest btns and keyboard
     def set_guest_menu(self) -> ReplyKeyboardMarkup:
         """
@@ -209,7 +218,7 @@ class Keyboards:
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('TEST_LESSON'))
         self.markup.row(self.set_btn('ABOUT_TUTOR'), self.set_btn('HELP'))
-        self.markup.row(self.set_btn('SETTINGS'), self.set_btn('ABOUT_APP'))
+        self.markup.add(self.set_btn('SETTINGS'))
         return self.markup
 
     def set_sign_up_btn(self, lesson_type_id: int) -> InlineKeyboardMarkup:
@@ -221,7 +230,7 @@ class Keyboards:
                                              callback_data=str(lesson_type_id)))
         return self.markup
 
-    def set_guest_menu(self) -> InlineKeyboardMarkup:
+    def set_lesson_sign_up_menu(self) -> InlineKeyboardMarkup:
         """
         set inline menu with lessons name
         """
