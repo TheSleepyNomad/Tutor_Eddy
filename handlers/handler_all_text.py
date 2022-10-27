@@ -115,6 +115,15 @@ class HandlerAllText(Handler):
         self.bot.send_message(message.chat.id, 'Какую запись обновить?',
                             reply_markup=self.keybords.set_list_of_lesson_for_upd_lesson(list_of_records))
 
+    def show_admin_students_menu(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Записи со студентами',
+                            reply_markup=self.keybords.set_students_action_menu())
+
+    def pressed_new_student_btn(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Записи со студентами',
+                            reply_markup=self.keybords.set_guests_inline_menu())
+
+
     def handle(self) -> None:
 
         @self.bot.message_handler(func=lambda message: True)
@@ -134,7 +143,10 @@ class HandlerAllText(Handler):
                 self.change_lesson(message)
 
             if message.text == KEYBOARD['STUDENTS']:
-                pass
+                self.show_admin_students_menu(message)
+
+            if message.text == KEYBOARD['GUESTS']:
+                self.pressed_new_student_btn(message)
 
             # student keyboard btns
             if message.text == KEYBOARD['MY_LESSONS']:

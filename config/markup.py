@@ -45,6 +45,34 @@ class Keyboards:
 
         return self.markup
 
+    def set_guests_inline_menu(self) -> InlineKeyboardMarkup:
+        """
+        Set list of lessons, when admin wanna see all lessons
+        """
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        guests = self.BD.select_all_guest()
+        for guest in guests:
+            self.markup.add(InlineKeyboardButton(str(f'{guest.first_name} - {guest.last_name} - {guest.phone}'),
+                                                 callback_data=str({'edit_guest': guest.id})))
+
+        return self.markup
+
+    def set_guest_edit_menu(self, guest_id: int) -> InlineKeyboardMarkup:
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        self.markup.add(InlineKeyboardButton('Добавить в студенты',
+                                                 callback_data=str({'edit_guest': guest_id, 'guest_is': 0})))
+        return self.markup
+
+    def set_students_action_menu(self) -> ReplyKeyboardMarkup:
+        """
+        Set menu, when admin pressed 'STUDENTS' btn
+        """
+        self.markup = ReplyKeyboardMarkup(True)
+        self.markup.add(self.set_btn('ALL_STUDENTS'))
+        self.markup.add(self.set_btn('GUESTS'))
+        self.markup.add(self.set_btn('<<'))
+        return self.markup
+
     # add lesson
     def set_list_of_lessons_for_add_lesson(self) -> InlineKeyboardMarkup:
         """
@@ -181,7 +209,7 @@ class Keyboards:
         """
         self.markup = InlineKeyboardMarkup(row_width=1)
         self.markup.add(InlineKeyboardButton(str('Записаться на пробное занятие'),
-                                    callback_data=str(lesson_type_id)))
+                                             callback_data=str(lesson_type_id)))
         return self.markup
 
     def set_guest_menu(self) -> InlineKeyboardMarkup:
@@ -191,7 +219,7 @@ class Keyboards:
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in self.BD.select_all_lesson_types():
             self.markup.add(InlineKeyboardButton(str(itm),
-                                    callback_data=str(itm.type_name)))
+                                                 callback_data=str(itm.type_name)))
 
         return self.markup
 
@@ -219,7 +247,7 @@ class Keyboards:
         delete markup
         """
         return ReplyKeyboardRemove()
-    
+
     def set_request_phone_menu(self) -> ReplyKeyboardMarkup:
         """
         set btn for getting user phone

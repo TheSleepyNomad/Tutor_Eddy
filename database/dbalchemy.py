@@ -165,7 +165,15 @@ class DBManager(metaclass=Singleton):
         """
         Creates a request to select all records in the Student table
         """
-        students = self._session.query(Students).all()
+        students = self._session.query(Students).filter_by(guest_is=False).all()
+        self.close()
+        return students
+
+    def select_all_guest(self):
+        """
+        Creates a request to select all records in the Student table
+        """
+        students = self._session.query(Students).filter_by(guest_is=True).all()
         self.close()
         return students
 
@@ -187,7 +195,7 @@ class DBManager(metaclass=Singleton):
         """
         Creates a request to update a record in the Student table
         """
-        self._session.query(Students).filter_by(user_id=user_id)\
+        self._session.query(Students).filter_by(id=user_id)\
                                                     .update({name: value})
         self._session.commit()
         self.close()

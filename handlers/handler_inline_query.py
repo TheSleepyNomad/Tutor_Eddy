@@ -168,6 +168,20 @@ class HandlerInlineQuery(Handler):
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Успешно!', message_id=call.message.id, reply_markup='')
 
+    # upd guest
+    def select_guest_for_upd(self, call):
+        self.bot.answer_callback_query(call.id)
+        guest_id = findall('\d+', call.data)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Подробнее о госте...', message_id=call.message.id, reply_markup=self.keybords.set_guest_edit_menu(guest_id[0]))
+
+    def upd_selected_guest(self, call):
+        self.bot.answer_callback_query(call.id)
+        guest_id, guest_is = findall('\d+', call.data)
+        self.BD.update_student(user_id=guest_id, name='guest_is', value=False)
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Новый студент добавлен', message_id=call.message.id, reply_markup='')
+
     def handle(self):
         @self.bot.callback_query_handler(func=lambda call: True)
         def callback_inline(call: CallbackQuery):
@@ -246,6 +260,14 @@ class HandlerInlineQuery(Handler):
                         self.select_pay_for_upd_lesson(call)
                 else:
                     self.select_lesson_for_upd(call)
+            
+            if 'edit_guest' in data:
+                if 'guest_is' in data:
+                    self.upd_selected_guest(call)
+                else:
+                    self.select_guest_for_upd(call)
+
+
 
             # this check use when guest already recording on lesson
             if data.isdigit():
