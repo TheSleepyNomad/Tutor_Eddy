@@ -12,9 +12,11 @@ class Keyboards:
         self.markup = None
         self.BD = DBManager()
 
-    # ! Add descriptions
     # Admin btns and keyboard
     def set_admin_lesson_action_menu(self) -> ReplyKeyboardMarkup:
+        """
+        Set menu, when admin pressed 'LESSON' btn
+        """
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('ALL_LESSONS'))
         self.markup.row(self.set_btn('ADD_LESSON'),
@@ -24,7 +26,7 @@ class Keyboards:
 
     def set_admin_menu(self) -> ReplyKeyboardMarkup:
         """
-        set start menu for users with admin role
+        set start menu for admin
         """
         self.markup = ReplyKeyboardMarkup(True)
         self.markup.add(self.set_btn('LESSONS'))
@@ -33,6 +35,9 @@ class Keyboards:
         return self.markup
 
     def set_lessons_inline_menu(self, lesson_record: list) -> InlineKeyboardMarkup:
+        """
+        Set list of lessons, when admin wanna see all lessons
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
             self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
@@ -43,6 +48,7 @@ class Keyboards:
     # add lesson
     def set_list_of_lessons_for_add_lesson(self) -> InlineKeyboardMarkup:
         """
+        Set list of lessons for add
         """
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in self.BD.select_all_lesson_types():
@@ -52,6 +58,9 @@ class Keyboards:
         return self.markup
 
     def set_list_of_students_for_add_lesson(self, lesson_id):
+        """
+        Set list of students for add
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in self.BD.select_all_students():
             self.markup.add(InlineKeyboardButton(str(f'{itm.first_name}'),
@@ -60,6 +69,9 @@ class Keyboards:
         return self.markup
 
     def set_list_of_dates_for_add_leeson(self, lesson_id, student_id):
+        """
+        Set list of dates for add
+        """
         date_list = [datetime.today() + timedelta(_) for _ in range(13)]
         self.markup = InlineKeyboardMarkup(row_width=1)
         for day in date_list:
@@ -69,6 +81,9 @@ class Keyboards:
 
     # update lesson
     def set_list_of_lesson_for_upd_lesson(self, lesson_record):
+        """
+        Set list of lessons for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         for itm in lesson_record:
             self.markup.add(InlineKeyboardButton(str(f'{itm.student_name} - {itm.lesson_name} - {itm.lesson_date}'),
@@ -77,6 +92,9 @@ class Keyboards:
         return self.markup
 
     def set_btns_for_upd_lesson(self, lesson_id):
+        """
+        Set btns for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         self.markup.row(InlineKeyboardButton('Студента', callback_data=str(f'upd_ls user {lesson_id}')),
                         InlineKeyboardButton('Предмет', callback_data=str(
@@ -90,7 +108,10 @@ class Keyboards:
             'Вернуться к списку', callback_data='return_to_upd_ls_list'))
         return self.markup
 
-    def set_list_of_lesson_for_upd_lesson(self, lesson_id):
+    def set_list_of_students_for_upd_lesson(self, lesson_id):
+        """
+        Set list of students for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         students = self.BD.select_all_students()
         for student in students:
@@ -99,6 +120,9 @@ class Keyboards:
         return self.markup
 
     def set_list_of_lesson_type_for_upd_lesson(self, lesson_id):
+        """
+        Set list of lesson_types for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         lesson_types = self.BD.select_all_lesson_types()
         for lesson_type in lesson_types:
@@ -107,6 +131,9 @@ class Keyboards:
         return self.markup
 
     def set_list_of_date_for_upd_lesson(self, lesson_id):
+        """
+        Set list of dates for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         dates_list = [datetime.today() + timedelta(_) for _ in range(13)]
         for date_list in dates_list:
@@ -115,6 +142,9 @@ class Keyboards:
         return self.markup
 
     def set_list_of_pay_btns_for_upd_lesson(self, lesson_id):
+        """
+        Set list of pay btn for upd
+        """
         self.markup = InlineKeyboardMarkup(row_width=1)
         self.markup.row(InlineKeyboardButton('Да',
                         callback_data=f'upd_ls ls_type value {lesson_id} 1'),

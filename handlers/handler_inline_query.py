@@ -124,7 +124,7 @@ class HandlerInlineQuery(Handler):
         self.bot.answer_callback_query(call.id)
         lesson_id = findall('\d+', call.data)
         self.bot.edit_message_text(
-            chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.set_list_of_lesson_for_upd_lesson(lesson_id))
+            chat_id=call.message.chat.id, text=f'Какого студента добавить?', message_id=call.message.id, reply_markup=self.keybords.set_list_of_students_for_upd_lesson(lesson_id))
 
     def select_lesson_type_for_upd_lesson(self, call):
         self.bot.answer_callback_query(call.id)
