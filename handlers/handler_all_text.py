@@ -45,7 +45,7 @@ class HandlerAllText(Handler):
         # else:
         self.bot.send_message(message.chat.id,
                               f'{MsgTemplates.ABOUT_LESSONS_MSG}',
-                              reply_markup=self.keybords.guest_lesson_menu())
+                              reply_markup=self.keybords.set_guest_menu())
         self.keybords.remove_menu()
 
     def pressed_back_btn(self, message: Message) -> None:

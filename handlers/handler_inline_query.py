@@ -68,7 +68,7 @@ class HandlerInlineQuery(Handler):
                     call.from_user.id, MsgTemplates.ABOUT_MATH_MSG)
             else:
                 self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_MATH_MSG,
-                                      reply_markup=self.keybords.record_on_lesson_menu(1))
+                                      reply_markup=self.keybords.set_sign_up_btn(1))
 
         if call.data == 'Английский язык':
             if lesson:
@@ -76,7 +76,7 @@ class HandlerInlineQuery(Handler):
                     call.from_user.id, MsgTemplates.ABOUT_ENG_MSG)
             else:
                 self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_ENG_MSG,
-                                      reply_markup=self.keybords.record_on_lesson_menu(2))
+                                      reply_markup=self.keybords.set_sign_up_btn(2))
 
         if call.data == 'Обществознание':
             if lesson:
@@ -84,7 +84,7 @@ class HandlerInlineQuery(Handler):
                     call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG)
             else:
                 self.bot.send_message(call.from_user.id, MsgTemplates.ABOUT_SOCIAL_MSG,
-                                      reply_markup=self.keybords.record_on_lesson_menu(3))
+                                      reply_markup=self.keybords.set_sign_up_btn(3))
 
     def show_extended_lesson_info_for_admin(self, call: CallbackQuery) -> None:
         lesson_record = self.BD.select_one_lesson(
