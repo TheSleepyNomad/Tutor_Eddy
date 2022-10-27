@@ -57,6 +57,15 @@ class Keyboards:
 
         return self.markup
 
+    def set_all_student_inline_menu(self) -> InlineKeyboardMarkup:
+        self.markup = InlineKeyboardMarkup(row_width=1)
+        students = self.BD.select_all_students()
+        for student in students:
+            self.markup.add(InlineKeyboardButton(str(f'{student.first_name} - {student.last_name} - {student.phone}'),
+                                                 callback_data=str({'student_info': student.id})))
+        return self.markup
+
+    # upd guest
     def set_guest_edit_menu(self, guest_id: int) -> InlineKeyboardMarkup:
         self.markup = InlineKeyboardMarkup(row_width=1)
         self.markup.add(InlineKeyboardButton('Добавить в студенты',

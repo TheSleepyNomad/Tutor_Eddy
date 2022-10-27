@@ -182,7 +182,7 @@ class DBManager(metaclass=Singleton):
         Creates a request to select one record selected by user_id
         """
         try:
-            result = self._session.query(Students).filter_by(user_id=user_id)\
+            result = self._session.query(Students).filter_by(id=user_id)\
                                                                         .one()
             self.close()
             return result

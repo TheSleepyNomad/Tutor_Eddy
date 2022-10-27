@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from handlers.handler import Handler
 from config.settings import KEYBOARD
@@ -97,6 +96,13 @@ class HandlerInlineQuery(Handler):
             lesson_record[0].is_payment),
             show_alert=True)
 
+    def show_extended_student_info_for_admin(self, call: CallbackQuery) -> None:
+        self.bot.answer_callback_query(call.id)
+        student_id = findall('\d+', call.data)
+        student = self.BD.select_one_student_by_id(student_id[0])
+        self.bot.edit_message_text(
+            chat_id=call.message.chat.id, text=f'Подробнее о студенте {student.first_name} {student.last_name}', message_id=call.message.id, reply_markup='')
+
     # add new lesson
     def select_student_for_new_lesson(self, call, lesson_name):
         self.bot.answer_callback_query(call.id)
@@ -148,7 +154,6 @@ class HandlerInlineQuery(Handler):
     def upd_selected_lesson(self, call, student_id=None, lesson_type_id=None, date=None, payment=None):
         self.bot.answer_callback_query(call.id)
         if student_id:
-            print('----')
             lesson_id, value = findall('\d+', call.data)
             self.BD.update_lesson(lesson_id, student_id, value)
 
@@ -187,9 +192,11 @@ class HandlerInlineQuery(Handler):
         def callback_inline(call: CallbackQuery):
 
             data = call.data
+            if 'student_info' in data:
+                self.show_extended_student_info_for_admin(call)
             # if admin wanna know lesson details
             # aka student name/phone/payed and other
-            if 'lesson_info' in data:
+            elif 'lesson_info' in data:
                 self.show_extended_lesson_info_for_admin(call)
 
             # if admin wanna create new lesson
@@ -197,7 +204,7 @@ class HandlerInlineQuery(Handler):
             # 1. bot send list of lesson_type
             # 2. bot edit old msg and send list of students
             # 3. finally bot last time edit msg and send inline list of dates
-            if 'add_lsn' in data:
+            elif 'add_lsn' in data:
                 # if admin select student - go deep
                 if 'lsn_id' in data:
                     # if admin select date - go deep
@@ -227,7 +234,7 @@ class HandlerInlineQuery(Handler):
             # 3. bot edit msg and send btns for editing
             # 4. Depending on what the user has chosen - send inline list of students/date and other
             # if admin select lesson for up
-            if 'upd_ls' in data:
+            elif 'upd_ls' in data:
                 # if admin wanna change student in lesson
                 if 'user' in data:
                     # if admin selected student
@@ -261,7 +268,7 @@ class HandlerInlineQuery(Handler):
                 else:
                     self.select_lesson_for_upd(call)
             
-            if 'edit_guest' in data:
+            elif 'edit_guest' in data:
                 if 'guest_is' in data:
                     self.upd_selected_guest(call)
                 else:
@@ -270,7 +277,7 @@ class HandlerInlineQuery(Handler):
 
 
             # this check use when guest already recording on lesson
-            if data.isdigit():
+            elif data.isdigit():
                 last_msg = self.record_on_test_lesson(call)
                 self.delete_last_bot_message(last_msg)
             else:

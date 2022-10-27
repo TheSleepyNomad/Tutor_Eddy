@@ -116,12 +116,16 @@ class HandlerAllText(Handler):
                             reply_markup=self.keybords.set_list_of_lesson_for_upd_lesson(list_of_records))
 
     def show_admin_students_menu(self, message: Message) -> None:
-        self.bot.send_message(message.chat.id, 'Записи со студентами',
+        self.bot.send_message(message.chat.id, 'Меню студентов',
                             reply_markup=self.keybords.set_students_action_menu())
 
     def pressed_new_student_btn(self, message: Message) -> None:
         self.bot.send_message(message.chat.id, 'Записи со студентами',
                             reply_markup=self.keybords.set_guests_inline_menu())
+
+    def pressed_all_students_btn(self, message: Message) -> None:
+        self.bot.send_message(message.chat.id, 'Все ваши студенты',
+                            reply_markup=self.keybords.set_all_student_inline_menu())
 
 
     def handle(self) -> None:
@@ -144,6 +148,9 @@ class HandlerAllText(Handler):
 
             if message.text == KEYBOARD['STUDENTS']:
                 self.show_admin_students_menu(message)
+            
+            if message.text == KEYBOARD['ALL_STUDENTS']:
+                self.pressed_all_students_btn(message)
 
             if message.text == KEYBOARD['GUESTS']:
                 self.pressed_new_student_btn(message)
