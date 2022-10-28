@@ -4,7 +4,7 @@ from config.settings import KEYBOARD
 from config.messages import MsgTemplates
 from config.settings import ADMIN_ID
 from telebot.types import CallbackQuery
-from re import findall, match
+from re import findall
 
 
 class HandlerInlineQuery(Handler):
@@ -86,8 +86,8 @@ class HandlerInlineQuery(Handler):
                                       reply_markup=self.keybords.set_sign_up_btn(3))
 
     def show_extended_lesson_info_for_admin(self, call: CallbackQuery) -> None:
-        lesson_record = self.BD.select_one_lesson(
-            int(call.data[17:-1].strip()))
+        lesson_id = findall('\d+', call.data)
+        lesson_record = self.BD.select_one_lesson(int(lesson_id[0]))
         self.bot.answer_callback_query(call.id, MsgTemplates.ABOUT_LESSON_MSG.format(
             lesson_record[0].student_name,
             lesson_record[0].student_phone,
@@ -99,7 +99,7 @@ class HandlerInlineQuery(Handler):
     def show_extended_student_info_for_admin(self, call: CallbackQuery) -> None:
         self.bot.answer_callback_query(call.id)
         student_id = findall('\d+', call.data)
-        student = self.BD.select_one_student_by_id(student_id[0])
+        student = self.BD.select_one_student_by_id(student_id[0], True)
         self.bot.edit_message_text(
             chat_id=call.message.chat.id, text=f'Подробнее о студенте {student.first_name} {student.last_name}', message_id=call.message.id, reply_markup='')
 

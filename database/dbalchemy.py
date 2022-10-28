@@ -206,15 +206,21 @@ class DBManager(metaclass=Singleton):
         self.close()
         return students
 
-    def select_one_student_by_id(self, user_id: int):
+    def select_one_student_by_id(self, user_id: int, is_id: bool = False):
         """
         Creates a request to select one record selected by user_id
         """
         try:
-            result = self._session.query(Students).filter_by(user_id=user_id)\
-                .one()
-            self.close()
-            return result
+            if is_id:
+                result = self._session.query(Students).filter_by(id=user_id)\
+                    .one()
+                self.close()
+                return result
+            else:
+                result = self._session.query(Students).filter_by(user_id=user_id)\
+                    .one()
+                self.close()
+                return result
 
         except NoResultFound:
             self.close()
