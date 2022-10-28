@@ -3,6 +3,9 @@ from utils.data_classes import LessonRecord
 
 
 def _convert_in_class(query_result: List[str]) -> List[LessonRecord]:
+    """
+    Convert sqlalchemy row in list of LessonRecord(dataclass)
+    """
     recors_list = []
     for item in query_result:
         recors_list.append(
