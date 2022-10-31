@@ -31,12 +31,12 @@ class HandlerCommands(Handler):
                 # if user is student
                 if user_role == 'student':
                     self.bot.send_message(message.chat.id,
-                                          f'{MsgTemplates.STUDENTS_START_MSG}',
+                                          f'{MsgTemplates.STUDENTS_START_MSG.format(message.from_user.first_name)}',
                                           reply_markup=self.keybords.set_students_menu())
-                # if user still guest
+                # if user still guests
                 else:
                     self.bot.send_message(message.chat.id,
-                                          f'{MsgTemplates.GUEST_START_MSG}',
+                                          f'{MsgTemplates.GUEST_START_MSG.format(message.from_user.first_name)}',
                                           reply_markup=self.keybords.set_guest_menu())
             # for new visitors
             else:
